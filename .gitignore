@@ -1,6 +1,8 @@
 # Folders
 node_modules/
 config/
+compiled/
+
 # Vim Files
 *~
 *.swp
