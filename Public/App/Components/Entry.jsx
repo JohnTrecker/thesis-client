@@ -1,5 +1,10 @@
 import React from 'react';
 import { Row, Col, Collection, CollectionItem } from 'react-materialize';
+import Link from './Link';
+
+const author = "ICANN";
+const title = "Example Domain";
+const link = "www.example.com";
 
 const Entry = () => (
   <Row>
@@ -20,33 +25,7 @@ const Entry = () => (
       </CollectionItem>
     </Collection>
     <Collection>
-      <CollectionItem>
-        <Row>
-          <Col>Incoming Link: </Col>
-        </Row>
-        <Row>
-          <Col>Title: </Col>
-          <Col>Author: </Col>
-        </Row>
-      </CollectionItem>
-      <CollectionItem>
-        <Row>
-          <Col>Incoming Link: </Col>
-        </Row>
-        <Row>
-          <Col>Title: </Col>
-          <Col>Author: </Col>
-        </Row>
-      </CollectionItem>
-      <CollectionItem>
-        <Row>
-          <Col>Incoming Link: </Col>
-        </Row>
-        <Row>
-          <Col>Title: </Col>
-          <Col>Author: </Col>
-        </Row>
-      </CollectionItem>
+      <Link link={link} title={title} author={author} />
     </Collection>
   </Row>
 );
