@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
+import * as _ from 'underscore';
 import Search from './Search';
 import Results from './Results';
 import Entry from './Entry';
@@ -31,13 +32,19 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.getTags = _.debounce(this.getTags.bind(this), 500);
+  }
+
+  getTags(str) {
+    console.log(str);
   }
 
   render() {
     return (
       <Row>
         <Col s={4}>
-          <Search />
+          <Search query={this.getTags} />
         </Col>
         <Col s={4}>
           <Results className="left-align" posts={posts} />
