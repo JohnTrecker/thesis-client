@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-materialize';
 import Search from './Search';
+import Results from './Results';
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class App extends Component {
           <Search />
         </Col>
         <Col s={4}>
-          <p>Center</p>
+          <Results className="left-align" />
         </Col>
         <Col s={4}>
           <p>Right</p>
