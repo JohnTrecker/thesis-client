@@ -17,15 +17,12 @@ class Entry extends Component {
         <Collection>
           <CollectionItem>
             <Row>
-              <Col className="left-align" s={6}>Title: Blog Post</Col>
-              <Col className="right-align" s={6}>Ranking: 1</Col>
+              <Col className="left-align" s={6}>Title: {this.state.entry.title}</Col>
+              <Col className="right-align" s={6}>Ranking: {this.state.entry.rank}</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>
-                <p>
-                  Description: Technical Blog Post blah blah blah blah blah blah blah blah
-                  blah blah blah blah blah blah blah
-                </p>
+                <p>Description: {this.state.entry.desc}</p>
               </Col>
             </Row>
           </CollectionItem>

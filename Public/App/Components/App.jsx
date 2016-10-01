@@ -25,6 +25,8 @@ const links = [
   { id: 4, url: "www.example.com", title: "Example Domain", author: "ICANN" },
   { id: 5, url: "www.example.com", title: "Example Domain", author: "ICANN" }];
 
+const entry = { title: "Blog Post", rank: 1, desc: "Technical Blog Post blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah" };
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +43,7 @@ class App extends Component {
           <Results className="left-align" posts={posts} />
         </Col>
         <Col s={4}>
-          <Entry links={links} />
+          <Entry entry={entry} links={links} />
         </Col>
       </Row>
     );
