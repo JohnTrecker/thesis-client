@@ -13,7 +13,18 @@ class Results extends Component {
   render() {
     return (
       <Collection>
-        <Post title={"Blog Post"} rank={1} desc={"Technical Blog Post"} author={"Mike Smith"} date={"Today"} tags={["Tag1 ", "Tag2 ", "Tag3 "]} />
+        {this.state.posts
+          .map(post =>
+            <Post
+              title={post.title}
+              rank={post.rank}
+              desc={post.desc}
+              author={post.author}
+              date={post.date}
+              tags={post.tags}
+              key={post.id}
+            />)
+        }
       </Collection>
     );
   }
