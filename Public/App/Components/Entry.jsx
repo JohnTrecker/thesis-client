@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Row, Col, Collection, CollectionItem } from 'react-materialize';
 import Link from './Link';
 
-const author = "ICANN";
-const title = "Example Domain";
-const link = "www.example.com";
-
 class Entry extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +31,10 @@ class Entry extends Component {
           </CollectionItem>
         </Collection>
         <Collection>
-          <Link link={link} title={title} author={author} />
+          {this.state.links
+            .map(link =>
+              <Link link={link.url} title={link.title} author={link.author} key={link.id} />)
+          }
         </Collection>
       </Row>
     );
