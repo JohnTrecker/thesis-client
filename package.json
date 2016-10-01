@@ -43,6 +43,7 @@
     "materialize": "^1.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-materialize": "^0.17.0"
+    "react-materialize": "^0.17.0",
+    "underscore": "^1.8.3"
   }
 }
