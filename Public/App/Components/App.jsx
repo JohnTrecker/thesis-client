@@ -46,7 +46,7 @@ class App extends Component {
 
   getTags(str) {
     this.setState({
-      tags: str.split(' ') });
+      tags: str.split(' ').filter(word => word.length > 0) });
     this.getPosts(this.state.tags);
   }
 
