@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Search from './Search';
 
 class App extends Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class App extends Component {
   }
 
   render() {
-    return (<p>Hello World!</p>);
+    return (<Search />);
   }
 }
 
