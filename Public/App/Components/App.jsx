@@ -4,7 +4,7 @@ import Search from './Search';
 import Results from './Results';
 import Entry from './Entry';
 
-const examples = [
+const posts = [
   { id: 1, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
   { id: 2, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
   { id: 3, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
@@ -17,6 +17,13 @@ const examples = [
   { id: 10, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
   { id: 11, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
   { id: 12, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] }];
+
+const links = [
+  { id: 1, url: "www.example", title: "Example Domain", author: "ICANN" },
+  { id: 2, url: "www.example", title: "Example Domain", author: "ICANN" },
+  { id: 3, url: "www.example", title: "Example Domain", author: "ICANN" },
+  { id: 4, url: "www.example", title: "Example Domain", author: "ICANN" },
+  { id: 5, url: "www.example", title: "Example Domain", author: "ICANN" }];
 
 class App extends Component {
   constructor(props) {
@@ -31,10 +38,10 @@ class App extends Component {
           <Search />
         </Col>
         <Col s={4}>
-          <Results className="left-align" posts={examples} />
+          <Results className="left-align" posts={posts} />
         </Col>
         <Col s={4}>
-          <Entry />
+          <Entry links={links} />
         </Col>
       </Row>
     );
