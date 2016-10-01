@@ -19,11 +19,11 @@ const posts = [
   { id: 12, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] }];
 
 const links = [
-  { id: 1, url: "www.example", title: "Example Domain", author: "ICANN" },
-  { id: 2, url: "www.example", title: "Example Domain", author: "ICANN" },
-  { id: 3, url: "www.example", title: "Example Domain", author: "ICANN" },
-  { id: 4, url: "www.example", title: "Example Domain", author: "ICANN" },
-  { id: 5, url: "www.example", title: "Example Domain", author: "ICANN" }];
+  { id: 1, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { id: 2, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { id: 3, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { id: 4, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { id: 5, url: "www.example.com", title: "Example Domain", author: "ICANN" }];
 
 class App extends Component {
   constructor(props) {
