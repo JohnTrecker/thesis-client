@@ -22,13 +22,21 @@ module.exports = (grunt) => {
         expand: true,
         src: ['Public/App/**/*.jsx'],
         dest: 'Compiled/',
-        ext: '.js' } } });
+        ext: '.js' } },
+    browserify: {
+      files: {
+        expand: true,
+        src: ['Compiled/**/*.js'] } },
+    watch: {
+      scripts: {
+        files: ['Public/App/**/*.jsx'],
+        tasks: ['default'] } } });
 
   grunt.registerTask('build', () => {
     grunt.task.run(['unit']);
   });
 
-  grunt.registerTask('default', ['babel']);
+  grunt.registerTask('default', ['babel', 'browserify']);
 
   // Todo: concat and minify client files here
   grunt.registerTask('deploy', () => {
