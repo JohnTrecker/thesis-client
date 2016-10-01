@@ -7,7 +7,7 @@ class App extends Component {
   }
 
   render() {
-    return (<p>HelloWorld!</p>);
+    return (<p>Hello World!</p>);
   }
 }
 
