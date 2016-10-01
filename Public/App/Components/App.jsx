@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'react-materialize';
 import Search from './Search';
 
 class App extends Component {
@@ -8,7 +9,19 @@ class App extends Component {
   }
 
   render() {
-    return (<Search />);
+    return (
+      <Row>
+        <Col s={4}>
+          <Search />
+        </Col>
+        <Col s={4}>
+          <p>Center</p>
+        </Col>
+        <Col s={4}>
+          <p>Right</p>
+        </Col>
+      </Row>
+    );
   }
 }
 
