@@ -7,7 +7,7 @@ class Results extends Component {
     super(props);
 
     this.state = {
-      posts: this.prop.posts };
+      posts: this.props.posts };
   }
 
   render() {
