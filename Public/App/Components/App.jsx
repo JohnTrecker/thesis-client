@@ -31,13 +31,23 @@ const entry = { title: "Blog Post", rank: 1, desc: "Technical Blog Post blah bla
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      tags: null,
+      entry: null,
+      links: null,
+      posts: null };
 
     this.getTags = _.debounce(this.getTags.bind(this), 500);
   }
 
+  getPosts(tags) {
+    console.log(tags);
+  }
+
   getTags(str) {
-    console.log(str);
+    this.setState({
+      tags: str.split(' ') });
+    this.getPosts(this.state.tags);
   }
 
   render() {
