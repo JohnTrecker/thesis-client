@@ -6,25 +6,25 @@ import Results from './Results';
 import Entry from './Entry';
 
 const posts = [
-  { id: 1, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 2, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 3, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 4, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 5, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 6, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 7, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 8, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 9, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 10, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 11, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { id: 12, title: "Blog Post", desc: "Technical Blog Post", author: "Mike Smith", rank: 1, date: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] }];
+  { postId: 1, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 2, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 3, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 4, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 5, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 6, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 7, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 8, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 9, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 10, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 11, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
+  { postId: 12, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] }];
 
 const links = [
-  { id: 1, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { id: 2, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { id: 3, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { id: 4, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { id: 5, url: "www.example.com", title: "Example Domain", author: "ICANN" }];
+  { postId: 1, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { postId: 2, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { postId: 3, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { postId: 4, url: "www.example.com", title: "Example Domain", author: "ICANN" },
+  { postId: 5, url: "www.example.com", title: "Example Domain", author: "ICANN" }];
 
 const entry = { title: "Blog Post", rank: 1, desc: "Technical Blog Post blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah" };
 
@@ -64,18 +64,27 @@ class App extends Component {
     this.setState({
       tags: str.split(' ').filter(word => word.length > 0) });
 
-    this.getPosts(this.state.tags, (error, data) => {
-      if (error) {
-        throw error;
+    this.getPosts(this.state.tags, (errorPosts, blogPosts) => {
+      if (errorPosts) {
+        throw errorPosts;
       } else {
-        console.log(data);
-        this.getLinks(data[0].postId, (error, data) => {
-          if (error) {
-            throw error;
-          } else {
-            console.log(data);
-          }
-        });
+        this.setState({
+          posts: blogPosts,
+          entry: {
+            title: blogPosts[0].title,
+            rank: blogPosts[0].rank,
+            description: blogPosts[0].description } });
+
+        if (blogPosts[0].inLinks.length > 0) {
+          this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
+            if (errorLinks) {
+              throw errorLinks;
+            } else {
+              this.setState({
+                links: blogLinks });
+            }
+          });
+        }
       }
     });
   }
