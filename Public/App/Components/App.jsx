@@ -33,9 +33,9 @@ class App extends Component {
     super(props);
     this.state = {
       tags: null,
-      entry: null,
-      links: null,
-      posts: null };
+      entry: {},
+      links: [],
+      posts: [] };
 
     this.getTags = _.debounce(this.getTags.bind(this), 500);
   }
@@ -99,10 +99,10 @@ class App extends Component {
           <Search query={this.getTags} />
         </Col>
         <Col s={4}>
-          <Results className="left-align" posts={posts} />
+          <Results className="left-align" posts={this.state.posts} />
         </Col>
         <Col s={4}>
-          <Entry entry={entry} links={links} />
+          <Entry entry={this.state.entry} links={this.state.links} />
         </Col>
       </Row>
     );
