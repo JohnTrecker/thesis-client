@@ -40,14 +40,27 @@ class App extends Component {
     this.getTags = _.debounce(this.getTags.bind(this), 500);
   }
 
-  getPosts(tags) {
-    console.log(tags);
+  getPosts(tags, cb) {
+    const q = JSON.stringify(tags);
+
+    $.ajax({
+      url: `http://ec2-54-218-115-180.us-west-2.compute.amazonaws.com/api/posts?tags=${q}`,
+      method: 'GET',
+      success: data => cb(null, data),
+      error: error => cb(error, null) });
   }
 
   getTags(str) {
     this.setState({
       tags: str.split(' ').filter(word => word.length > 0) });
-    this.getPosts(this.state.tags);
+
+    this.getPosts(this.state.tags, (error, data) => {
+      if (error) {
+        throw error;
+      } else {
+        console.log(data);
+      }
+    });
   }
 
   render() {
