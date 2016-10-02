@@ -22,7 +22,7 @@ class Entry extends Component {
             </Row>
             <Row>
               <Col className="left-align" s={10}>
-                <p>Description: {this.state.entry.desc}</p>
+                <p>Description: {this.state.entry.description}</p>
               </Col>
             </Row>
           </CollectionItem>
@@ -30,7 +30,7 @@ class Entry extends Component {
         <Collection>
           {this.state.links
             .map(link =>
-              <Link link={link.url} title={link.title} author={link.author} key={link.id} />)
+              <Link link={link.url} title={link.title} author={link.author} key={link.postId} />)
           }
         </Collection>
       </Row>

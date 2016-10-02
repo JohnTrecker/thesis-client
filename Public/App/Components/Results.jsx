@@ -18,11 +18,11 @@ class Results extends Component {
             <Post
               title={post.title}
               rank={post.rank}
-              desc={post.desc}
+              desc={post.description}
               author={post.author}
-              date={post.date}
+              date={post.publishDate}
               tags={post.tags}
-              key={post.id}
+              key={post.postId}
             />)
         }
       </Collection>

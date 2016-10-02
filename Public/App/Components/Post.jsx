@@ -15,7 +15,7 @@ const Post = ({ title, desc, rank, author, date, tags }) => (
       <Col className="right-align" s={6}>Date: {date}</Col>
     </Row>
     <Row>
-      <Col className="left-align">Tags: {tags}</Col>
+      <Col className="left-align">Tags: {tags.join(' ')}</Col>
     </Row>
   </CollectionItem>
 );
