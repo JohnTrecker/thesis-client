@@ -50,6 +50,16 @@ class App extends Component {
       error: error => cb(error, null) });
   }
 
+  getLinks(id, cb) {
+    const q = JSON.stringify(id);
+
+    $.ajax({
+      url: `http://ec2-54-218-115-180.us-west-2.compute.amazonaws.com/api/posts/${q}`,
+      method: 'GET',
+      success: data => cb(null, data),
+      error: error => cb(error, null) });
+  }
+
   getTags(str) {
     this.setState({
       tags: str.split(' ').filter(word => word.length > 0) });
@@ -59,6 +69,13 @@ class App extends Component {
         throw error;
       } else {
         console.log(data);
+        this.getLinks(data[0].postId, (error, data) => {
+          if (error) {
+            throw error;
+          } else {
+            console.log(data);
+          }
+        });
       }
     });
   }
