@@ -84,6 +84,9 @@ class App extends Component {
                 links: blogLinks });
             }
           });
+        } else {
+          this.setState({
+            links: [] });
         }
       }
     });
