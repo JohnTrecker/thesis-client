@@ -31,6 +31,7 @@ const entry = { title: "Blog Post", rank: 1, desc: "Technical Blog Post blah bla
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       tags: null,
       entry: {},
@@ -61,35 +62,29 @@ class App extends Component {
   }
 
   get(str) {
-    this.setState({
-      tags: str.split(' ').filter(word => word.length > 0) });
-
-    this.getPosts(this.state.tags, (errorPosts, blogPosts) => {
-      if (errorPosts) {
-        throw errorPosts;
-      } else {
-        this.setState({
-          posts: blogPosts,
-          entry: {
-            title: blogPosts[0].title,
-            rank: blogPosts[0].rank,
-            description: blogPosts[0].description } });
-
-        if (blogPosts[0].inLinks.length > 0) {
-          this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
-            if (errorLinks) {
-              throw errorLinks;
-            } else {
-              this.setState({
-                links: blogLinks });
-            }
-          });
-        } else {
-          this.setState({
-            links: [] });
+    const tags = str.split(' ').filter(word => word.length > 0);
+    if (tags.length > 0) {
+      this.getPosts(tags, (errorPosts, blogPosts) => {
+        if (errorPosts) {
+          throw errorPosts;
         }
-      }
-    });
+
+        this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
+          if (errorLinks) {
+            throw errorLinks;
+          }
+
+          this.setState({
+            tags: tags,
+            posts: blogPosts,
+            entry: {
+              title: blogPosts[0].title,
+              rank: blogPosts[0].rank,
+              description: blogPosts[0].description },
+            links: blogLinks });
+        });
+      });
+    }
   }
 
   componentDidMount() {
