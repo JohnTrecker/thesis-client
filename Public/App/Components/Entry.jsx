@@ -11,6 +11,12 @@ class Entry extends Component {
       links: this.props.links };
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      entry: this.props.entry,
+      links: this.props.links });
+  }
+
   render() {
     return (
       <Row>

@@ -10,6 +10,11 @@ class Results extends Component {
       posts: this.props.posts };
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      posts: this.props.posts });
+  }
+
   render() {
     return (
       <Collection>
@@ -34,3 +39,4 @@ Results.propTypes = {
   posts: React.PropTypes.array };
 
 export default Results;
+
