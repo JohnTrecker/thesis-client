@@ -93,7 +93,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    get(['javascript']);
+    this.get('javascript');
   }
 
   render() {
