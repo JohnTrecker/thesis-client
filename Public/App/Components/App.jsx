@@ -92,6 +92,10 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    get(['javascript']);
+  }
+
   render() {
     return (
       <Row>
