@@ -60,7 +60,7 @@ class App extends Component {
       error: error => cb(error, null) });
   }
 
-  getTags(str) {
+  get(str) {
     this.setState({
       tags: str.split(' ').filter(word => word.length > 0) });
 
@@ -96,7 +96,7 @@ class App extends Component {
     return (
       <Row>
         <Col s={4}>
-          <Search query={this.getTags} />
+          <Search query={this.get} />
         </Col>
         <Col s={4}>
           <Results className="left-align" posts={this.state.posts} />
