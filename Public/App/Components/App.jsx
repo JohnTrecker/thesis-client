@@ -5,29 +5,6 @@ import Search from './Search';
 import Results from './Results';
 import Entry from './Entry';
 
-const posts = [
-  { postId: 1, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 2, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 3, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 4, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 5, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 6, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 7, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 8, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 9, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 10, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 11, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] },
-  { postId: 12, title: "Blog Post", description: "Technical Blog Post", author: "Mike Smith", rank: 1, publishData: "Today", tags: ["Tag1 ", "Tag2 ", "Tag3 "] }];
-
-const links = [
-  { postId: 1, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { postId: 2, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { postId: 3, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { postId: 4, url: "www.example.com", title: "Example Domain", author: "ICANN" },
-  { postId: 5, url: "www.example.com", title: "Example Domain", author: "ICANN" }];
-
-const entry = { title: "Blog Post", rank: 1, desc: "Technical Blog Post blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah" };
-
 class App extends Component {
   constructor(props) {
     super(props);
