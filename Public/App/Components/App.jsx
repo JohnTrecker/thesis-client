@@ -37,7 +37,7 @@ class App extends Component {
       links: [],
       posts: [] };
 
-    this.getTags = _.debounce(this.getTags.bind(this), 500);
+    this.get = _.debounce(this.get.bind(this), 500);
   }
 
   getPosts(tags, cb) {
