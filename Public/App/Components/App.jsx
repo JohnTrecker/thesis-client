@@ -38,7 +38,7 @@ class App extends Component {
       error: error => cb(error, null) });
   }
 
-  get(str) {
+  get(str, cb) {
     const tags = str.split(' ').filter(word => word.length > 0);
     if (tags.length > 0) {
       this.getPosts(tags, (errorPosts, blogPosts) => {
@@ -58,11 +58,15 @@ class App extends Component {
               title: blogPosts[0].title,
               rank: blogPosts[0].rank,
               description: blogPosts[0].description },
-            links: blogLinks });
+            links: blogLinks 
+          });
+
+          this.forceUpdate();
         });
       });
     }
   }
+
 
   componentDidMount() {
     this.get('javascript');
@@ -72,7 +76,7 @@ class App extends Component {
     return (
       <Row>
         <Col s={4}>
-          <Search query={this.get} />
+          <Search query={this.get}/>
         </Col>
         <Col s={4}>
           <Results className="left-align" posts={this.state.posts} />
