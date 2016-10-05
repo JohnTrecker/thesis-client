@@ -1,10 +1,10 @@
 import React from 'react';
 import { Row, Col, CollectionItem } from 'react-materialize';
 
-const Post = ({ title, desc, rank, author, date, tags }) => (
+const Post = ({ title, url, desc, rank, author, date, tags }) => (
   <CollectionItem>
     <Row>
-      <Col className="left-align" s={6}>Title: {title}</Col>
+      <Col className="left-align" s={6}>Title: {<a href={url}>{title}</a>}</Col>
       <Col className="right-align" s={6}>Ranking: {rank}</Col>
     </Row>
     <Row>

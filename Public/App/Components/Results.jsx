@@ -22,6 +22,7 @@ class Results extends Component {
           .map(post =>
             <Post
               title={post.title}
+              url={post.url}
               rank={post.inLinks.length}
               desc={post.description}
               author={post.author}

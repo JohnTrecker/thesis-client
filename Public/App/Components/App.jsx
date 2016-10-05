@@ -45,24 +45,34 @@ class App extends Component {
         if (errorPosts) {
           throw errorPosts;
         }
-
-        this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
-          if (errorLinks) {
-            throw errorLinks;
-          }
-
+        if (!blogPosts[0]) {
           this.setState({
-            tags: tags,
-            posts: blogPosts,
-            entry: {
-              title: blogPosts[0].title,
-              rank: blogPosts[0].rank,
-              description: blogPosts[0].description },
-            links: blogLinks 
+            tags: null,
+            posts: [],
+            entry: {},
+            links: [] 
+          }, () => {
+            this.forceUpdate();
           });
+        } else {
+          this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
+            if (errorLinks) {
+              throw errorLinks;
+            }
 
-          this.forceUpdate();
-        });
+            this.setState({
+              tags: tags,
+              posts: blogPosts,
+              entry: {
+                title: blogPosts[0].title,
+                rank: blogPosts[0].rank,
+                description: blogPosts[0].description },
+              links: blogLinks 
+            });
+
+            this.forceUpdate();
+          });
+        }
       });
     }
   }
