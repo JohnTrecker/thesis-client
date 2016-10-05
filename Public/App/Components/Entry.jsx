@@ -24,7 +24,7 @@ class Entry extends Component {
           <CollectionItem>
             <Row>
               <Col className="left-align" s={6}>Title: {this.state.entry.title}</Col>
-              <Col className="right-align" s={6}>Ranking: {this.state.entry.rank}</Col>
+              <Col className="right-align" s={6}>Ranking: {this.state.entry.inLinks}</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>

@@ -22,11 +22,11 @@ class Results extends Component {
           .map(post =>
             <Post
               title={post.title}
-              rank={post.rank}
+              rank={post.inLinks.length}
               desc={post.description}
               author={post.author}
               date={post.publishDate}
-              tags={post.tags}
+              tags={post.oldTags}
               key={post.postId}
             />)
         }

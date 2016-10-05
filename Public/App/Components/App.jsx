@@ -22,7 +22,7 @@ class App extends Component {
     const q = JSON.stringify(tags);
 
     $.ajax({
-      url: `http://ec2-54-218-115-180.us-west-2.compute.amazonaws.com/api/posts?tags=${q}`,
+      url: `/api/posts?tags=${q}`,
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
@@ -32,7 +32,7 @@ class App extends Component {
     const q = JSON.stringify(id);
 
     $.ajax({
-      url: `http://ec2-54-218-115-180.us-west-2.compute.amazonaws.com/api/posts/${q}`,
+      url: `/api/posts/${q}`,
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
