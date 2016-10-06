@@ -18,12 +18,15 @@ class Entry extends Component {
   }
 
   render() {
+    if (!this.state.entry) {
+      return null;
+    }
     return (
       <Row>
         <Collection>
           <CollectionItem>
             <Row>
-              <Col className="left-align" s={6}>Title: {this.state.entry.title}</Col>
+              <Col className="left-align" s={6}>Title: {<a href={this.state.entry.url}>{this.state.entry.title}</a>}</Col>
               <Col className="right-align" s={6}>Ranking: {this.state.entry.inLinks}</Col>
             </Row>
             <Row>

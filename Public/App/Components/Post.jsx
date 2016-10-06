@@ -23,6 +23,7 @@ const Post = ({ title, url, desc, rank, author, date, tags }) => (
 Post.propTypes = {
   title: React.PropTypes.string,
   desc: React.PropTypes.string,
+  url: React.PropTypes.string,
   rank: React.PropTypes.number,
   author: React.PropTypes.string,
   date: React.PropTypes.string,

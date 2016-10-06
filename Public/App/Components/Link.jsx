@@ -4,7 +4,7 @@ import { Row, Col, CollectionItem } from 'react-materialize';
 const Link = ({ link, title, author }) => (
   <CollectionItem>
     <Row>
-      <Col>Incoming Link: { link }</Col>
+      <Col>Incoming Link: {<a href={link}>{link}</a>}</Col>
     </Row>
     <Row>
       <Col>Title: { title }</Col>

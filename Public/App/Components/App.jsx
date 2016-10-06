@@ -49,7 +49,7 @@ class App extends Component {
           this.setState({
             tags: null,
             posts: [],
-            entry: {},
+            entry: null,
             links: [] 
           }, () => {
             this.forceUpdate();
@@ -66,11 +66,11 @@ class App extends Component {
               entry: {
                 title: blogPosts[0].title,
                 rank: blogPosts[0].rank,
-                description: blogPosts[0].description },
+                description: blogPosts[0].description,
+                url: blogPosts[0].url },
               links: blogLinks 
-            });
+            }, () => this.forceUpdate());
 
-            this.forceUpdate();
           });
         }
       });
