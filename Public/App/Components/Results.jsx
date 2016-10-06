@@ -7,7 +7,8 @@ class Results extends Component {
     super(props);
 
     this.state = {
-      posts: this.props.posts };
+      posts: this.props.posts,
+      view: this.props.view };
   }
 
   componentWillReceiveProps(props) {
@@ -16,25 +17,29 @@ class Results extends Component {
   }
 
   render() {
-    return (
-      <Collection>
-        {this.state.posts
-          .map((post, i) =>
-            <Post
-              title={post.title}
-              url={post.url}
-              rank={post.inLinks.length}
-              desc={post.description}
-              author={post.author}
-              date={post.publishDate}
-              tags={post.oldTags}
-              key={post.postId}
-              index={i}
-              resultsClickHandler={this.props.resultsClickHandler}
-            />)
-        }
-      </Collection>
-    );
+    if (this.props.view === 'posts') {
+      return (
+        <Collection>
+          {this.state.posts
+            .map((post, i) =>
+              <Post
+                title={post.title}
+                url={post.url}
+                rank={post.inLinks.length}
+                desc={post.description}
+                author={post.author}
+                date={post.publishDate}
+                tags={post.oldTags}
+                key={post.postId}
+                index={i}
+                resultsClickHandler={this.props.resultsClickHandler}
+              />)
+          }
+        </Collection>
+      );
+    } else if (this.props.view === 'authors') {
+      return null;
+    }
   }
 }
 

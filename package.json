@@ -44,7 +44,6 @@
     "react": "^15.3.2",
     "react-custom-scrollbars": "^4.0.0",
     "react-dom": "^15.3.2",
-    "react-infinite-scroll": "^0.1.5",
     "react-materialize": "^0.17.0",
     "underscore": "^1.8.3"
   }

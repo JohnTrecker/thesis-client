@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-materialize';
+import { Row, Col, Card, Button, Navbar, NavItem } from 'react-materialize';
 import * as _ from 'underscore';
 import Search from './Search';
 import Results from './Results';
@@ -16,7 +16,8 @@ class App extends Component {
       tags: null,
       entry: {},
       links: [],
-      posts: [] };
+      posts: [],
+      view: 'posts' };
 
     this.get = _.debounce(this.get.bind(this), 500);
   }
@@ -91,6 +92,18 @@ class App extends Component {
     });
   }
 
+  postsViewClickHandler() {
+    this.setState({
+      view: 'posts'
+    });
+  }
+
+  authorsViewClickHandler() {
+    this.setState({
+      view: 'authors'
+    });
+  }
+
   componentDidMount() {
     this.get('javascript');
   }
@@ -100,11 +113,13 @@ class App extends Component {
       <Row>
         <Col s={4}>
           <Search query={this.get}/>
+            <Card className='blue-grey darken-1' textClassName='white-text' actions={[<a key='posts' onClick={this.postsViewClickHandler.bind(this)}>Posts</a>,<a key='authors' onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>]}>
+              Select View
+            </Card>
         </Col>
-
         <Col s={4}>
           <Scrollbars style={{ height: $(window).height() }}> 
-            <Results className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} posts={this.state.posts} />
+            <Results view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} posts={this.state.posts} />
           </Scrollbars>
         </Col>
 
