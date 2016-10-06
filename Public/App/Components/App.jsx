@@ -70,7 +70,7 @@ class App extends Component {
                 description: blogPosts[0].description,
                 url: blogPosts[0].url },
               links: blogLinks 
-            }, () => this.forceUpdate());
+            });
 
           });
         }
@@ -88,7 +88,7 @@ class App extends Component {
           url: this.state.posts[index].url
         },
         links: blogLinks
-      }, () => this.forceUpdate());
+      });
     });
   }
 

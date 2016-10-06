@@ -20,7 +20,7 @@ class Results extends Component {
     if (this.props.view === 'posts') {
       return (
         <Collection>
-          {this.state.posts
+          {this.props.posts
             .map((post, i) =>
               <Post
                 title={post.title}

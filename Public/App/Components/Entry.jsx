@@ -27,18 +27,18 @@ class Entry extends Component {
         <Collection>
           <CollectionItem>
             <Row>
-              <Col className="left-align" s={6}>Title: {<a href={this.state.entry.url}>{this.state.entry.title}</a>}</Col>
-              <Col className="right-align" s={6}>Cited {this.state.links.length || 0} Times</Col>
+              <Col className="left-align" s={6}>Title: {<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
+              <Col className="right-align" s={6}>Cited {this.props.links.length || 0} Times</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>
-                <p>Description: {this.state.entry.description}</p>
+                <p>Description: {this.props.entry.description}</p>
               </Col>
             </Row>
           </CollectionItem>
         </Collection>
         <Collection>
-          {this.state.links
+          {this.props.links
             .map(link =>
               <Link link={link.url} title={link.title} author={link.author} key={link.postId} />)
           }
