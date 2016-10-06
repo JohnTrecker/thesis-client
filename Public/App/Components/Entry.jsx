@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Collection, CollectionItem } from 'react-materialize';
 import Link from './Link';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class Entry extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class Entry extends Component {
           <CollectionItem>
             <Row>
               <Col className="left-align" s={6}>Title: {<a href={this.state.entry.url}>{this.state.entry.title}</a>}</Col>
-              <Col className="right-align" s={6}>Ranking: {this.state.entry.inLinks}</Col>
+              <Col className="right-align" s={6}>Cited {this.state.links.length || 0} Times</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>

@@ -7,6 +7,7 @@ import Entry from './Entry';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 
+
 class App extends Component {
   constructor(props) {
     super(props);
