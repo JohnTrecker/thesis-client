@@ -19,7 +19,7 @@ class Results extends Component {
     return (
       <Collection>
         {this.state.posts
-          .map(post =>
+          .map((post, i) =>
             <Post
               title={post.title}
               url={post.url}
@@ -29,6 +29,8 @@ class Results extends Component {
               date={post.publishDate}
               tags={post.oldTags}
               key={post.postId}
+              index={i}
+              resultsClickHandler={this.props.resultsClickHandler}
             />)
         }
       </Collection>

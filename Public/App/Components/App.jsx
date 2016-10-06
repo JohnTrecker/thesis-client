@@ -45,21 +45,18 @@ class App extends Component {
         if (errorPosts) {
           throw errorPosts;
         }
-        if (!blogPosts[0]) {
+        if (blogPosts.length === 0) {
           this.setState({
             tags: null,
             posts: [],
             entry: null,
             links: [] 
-          }, () => {
-            this.forceUpdate();
-          });
+          }, () => this.forceUpdate());
         } else {
           this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
             if (errorLinks) {
               throw errorLinks;
             }
-
             this.setState({
               tags: tags,
               posts: blogPosts,
@@ -77,6 +74,19 @@ class App extends Component {
     }
   }
 
+  resultsClickHandler(index) {
+    this.getLinks(this.state.posts[index].postId, (err, blogLinks) => {
+      this.setState({
+        entry: {
+          title: this.state.posts[index].title,
+          rank: this.state.posts[index].rank,
+          description: this.state.posts[index].description,
+          url: this.state.posts[index].url
+        },
+        links: blogLinks
+      }, () => this.forceUpdate());
+    });
+  }
 
   componentDidMount() {
     this.get('javascript');
@@ -89,7 +99,7 @@ class App extends Component {
           <Search query={this.get}/>
         </Col>
         <Col s={4}>
-          <Results className="left-align" posts={this.state.posts} />
+          <Results className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} posts={this.state.posts} />
         </Col>
         <Col s={4}>
           <Entry entry={this.state.entry} links={this.state.links} />

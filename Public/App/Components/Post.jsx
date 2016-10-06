@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col, CollectionItem } from 'react-materialize';
 
-const Post = ({ title, url, desc, rank, author, date, tags }) => (
-  <CollectionItem>
+const Post = ({ title, url, desc, rank, author, date, tags, index, resultsClickHandler }) => (
+  <CollectionItem onClick={() => resultsClickHandler(index)}>
     <Row>
       <Col className="left-align" s={6}>Title: {<a href={url}>{title}</a>}</Col>
       <Col className="right-align" s={6}>Ranking: {rank}</Col>
