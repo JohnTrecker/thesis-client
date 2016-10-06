@@ -4,6 +4,8 @@ import * as _ from 'underscore';
 import Search from './Search';
 import Results from './Results';
 import Entry from './Entry';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 
 class App extends Component {
   constructor(props) {
@@ -98,9 +100,13 @@ class App extends Component {
         <Col s={4}>
           <Search query={this.get}/>
         </Col>
+
         <Col s={4}>
-          <Results className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} posts={this.state.posts} />
+          <Scrollbars style={{ height: $(window).height() }}> 
+            <Results className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} posts={this.state.posts} />
+          </Scrollbars>
         </Col>
+
         <Col s={4}>
           <Entry entry={this.state.entry} links={this.state.links} />
         </Col>
