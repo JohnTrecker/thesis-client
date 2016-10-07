@@ -19,7 +19,7 @@ class Entry extends Component {
   }
 
   render() {
-    if (!this.state.entry) {
+    if (!this.props.entry) {
       return null;
     }
     return (
@@ -27,8 +27,8 @@ class Entry extends Component {
         <Collection>
           <CollectionItem>
             <Row>
-              <Col className="left-align" s={6}>Title: {<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
-              <Col className="right-align" s={6}>Cited {this.props.links.length || 0} Times</Col>
+              <Col className="left-align" s={9}>Title: {<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
+              <Col className="right-align" s={3}>Cited By {this.props.links.length || 0}</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>

@@ -4,8 +4,8 @@ import { Row, Col, CollectionItem } from 'react-materialize';
 const Post = ({ title, url, desc, rank, author, date, tags, index, resultsClickHandler }) => (
   <CollectionItem className="post" onClick={() => resultsClickHandler(index)}>
     <Row>
-      <Col className="left-align" s={6}>Title: {<a href={url}>{title}</a>}</Col>
-      <Col className="right-align" s={6}>Cited {rank || 0} Times</Col>
+      <Col className="left-align" s={9}>Title: {<a href={url}>{title}</a>}</Col>
+      <Col className="right-align" s={3}>Cited By {rank || 0}</Col>
     </Row>
     <Row>
       <Col className="left-align">Description: {desc}</Col>

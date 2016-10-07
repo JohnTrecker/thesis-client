@@ -55,7 +55,7 @@ class App extends Component {
             posts: [],
             entry: null,
             links: [] 
-          }, () => this.forceUpdate());
+          });
         } else {
           this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
             if (errorLinks) {
@@ -96,12 +96,14 @@ class App extends Component {
     this.setState({
       view: 'posts'
     });
+    $(this).parent().toggleClass('active');
   }
 
   authorsViewClickHandler() {
     this.setState({
       view: 'authors'
     });
+    $(this).parent().toggleClass('active');
   }
 
   componentDidMount() {
@@ -110,12 +112,27 @@ class App extends Component {
 
   render() {
     return (
+    <div>
+      <Row>
+        <Navbar>
+          <Col className="header center-align" s={4}>
+            <h4>Search</h4>
+          </Col>
+          <Col className="header center-align" s={4}>
+            <h4>Results</h4>
+          </Col>
+          <Col className="header center-align" s={4}>
+            <h4>Details</h4>
+          </Col>
+        </Navbar>
+      </Row>
       <Row>
         <Col s={4}>
           <Search query={this.get}/>
-            <Card className='blue-grey darken-1' textClassName='white-text' actions={[<a key='posts' onClick={this.postsViewClickHandler.bind(this)}>Posts</a>,<a key='authors' onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>]}>
-              Select View
-            </Card>
+          <Navbar>
+            <NavItem onClick={this.postsViewClickHandler.bind(this)}>View Posts</NavItem>
+            <NavItem onClick={this.authorsViewClickHandler.bind(this)}>View Authors</NavItem>
+          </Navbar>
         </Col>
         <Col s={4}>
           <Scrollbars style={{ height: $(window).height() }}> 
@@ -127,6 +144,7 @@ class App extends Component {
           <Entry entry={this.state.entry} links={this.state.links} />
         </Col>
       </Row>
+      </div>
     );
   }
 }
