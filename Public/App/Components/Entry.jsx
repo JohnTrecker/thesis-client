@@ -27,8 +27,10 @@ class Entry extends Component {
         <Collection>
           <CollectionItem>
             <Row>
-              <Col className="left-align" s={9}>Title: {<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
-              <Col className="right-align" s={3}>Cited By {this.props.links.length || 0}</Col>
+              <Col className="left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
+            </Row>
+            <Row>
+              <Col className="left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.url}</a>}</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>
@@ -36,8 +38,6 @@ class Entry extends Component {
               </Col>
             </Row>
           </CollectionItem>
-        </Collection>
-        <Collection>
           {this.props.links
             .map(link =>
               <Link link={link.url} title={link.title} author={link.author} key={link.postId} />)

@@ -4,10 +4,12 @@ import { Row, Col, CollectionItem } from 'react-materialize';
 const Link = ({ link, title, author }) => (
   <CollectionItem>
     <Row>
-      <Col>Incoming Link: {<a href={link}>{link}</a>}</Col>
+      <Col>Cited By: {<a href={link}>{title}</a>}</Col>
     </Row>
     <Row>
-      <Col>Title: { title }</Col>
+      <Col>{ <a href={link}>{link}</a> }</Col>
+    </Row>
+    <Row>
       <Col>Author: { author }</Col>
     </Row>
   </CollectionItem>

@@ -17,7 +17,9 @@ class Results extends Component {
   }
 
   render() {
-    if (this.props.view === 'posts') {
+    if (this.props.posts.length === 0) {
+      return null;
+    } else if (this.props.view === 'posts') {
       return (
         <Collection>
           {this.props.posts

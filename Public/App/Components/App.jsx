@@ -14,7 +14,7 @@ class App extends Component {
 
     this.state = {
       tags: null,
-      entry: {},
+      entry: null,
       links: [],
       posts: [],
       view: 'posts' };
