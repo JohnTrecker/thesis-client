@@ -47,7 +47,7 @@ class Entry extends Component {
             <div>{linksHeader}</div>
             {this.props.links
               .map((link, i) =>
-                <Link link={link.url} title={link.title} author={link.author} key={i} />)
+                <Link link={link.url} title={link.title} author={link.author} />)
             }
           </CollectionItem>
         </Collection>

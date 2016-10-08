@@ -18,9 +18,12 @@ class App extends Component {
       links: [],
       posts: [],
       view: 'posts',
-      page: 0 };
+      page: 1,
+      query: '',
+      authors: [] };
 
     this.get = _.debounce(this.get.bind(this), 500);
+    this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
   }
 
   getPosts(tags, cb) {
@@ -44,6 +47,33 @@ class App extends Component {
       error: error => cb(error, null) });
   }
 
+  getAuthors(str, cb) {
+    const tags = str.split(' ').filter(word => word.length > 0);
+    const onResult = (err, authors) => {
+      if (err) {
+        throw err;
+      } else {
+        this.setState({
+          authors: authors,
+          query: str
+        }, () => {
+          console.log(this.state.authors);
+        });       
+      }
+    };
+
+    if (tags.length > 0) {
+      const q = JSON.stringify(tags);
+      $.ajax({
+        url: `/api/authors?tags=${q}`,
+        method: 'GET',
+        page: this.state.page,
+        success: data => onResult(null, data),
+        error: error => onResult(error, null)
+      });
+    }
+  }
+
   get(str, cb) {
     const tags = str.split(' ').filter(word => word.length > 0);
     if (tags.length > 0) {
@@ -57,13 +87,10 @@ class App extends Component {
               tags: null,
               posts: [],
               entry: null,
-              links: [] 
+              links: [],
+              query: str 
             });
           }
-        } else if (this.state.page > 0) {
-          this.setState({
-            posts: this.state.posts.concat(blogPosts)
-          });
         } else {
           this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
             if (errorLinks) {
@@ -78,7 +105,8 @@ class App extends Component {
                 description: blogPosts[0].description,
                 url: blogPosts[0].url
               },
-              links: blogLinks 
+              links: blogLinks,
+              query: str
             });
           });
         }
@@ -107,15 +135,27 @@ class App extends Component {
   };
 
   postsViewClickHandler() {
-    this.setState({
-      view: 'posts'
-    });
+    if (this.state.view === 'authors') {
+      this.setState({
+        view: 'posts'
+      }, () => {
+        this.get(this.state.query);
+      });
+      $('.postselect').addClass('active');
+      $('.authorselect').removeClass('active');
+    }
   }
 
   authorsViewClickHandler() {
-    this.setState({
-      view: 'authors'
-    });
+    if (this.state.view === 'posts') {
+      this.setState({
+        view: 'authors'
+      }, () => {
+        this.getAuthors(this.state.query);
+      });
+      $('.authorselect').addClass('active');
+      $('.postselect').removeClass('active');
+    }
   }
 
   componentDidMount() {
@@ -146,16 +186,25 @@ class App extends Component {
       </Row>
       <Row>
         <Col s={4}>
-          <Search query={(str) => this.pageHandler(str, 0)}/>
+          <Search view={this.state.view} getAuthors={this.getAuthors.bind(this)} get={this.get.bind(this)}/>
           <Navbar>
-            <NavItem onClick={this.postsViewClickHandler.bind(this)}>View Posts</NavItem>
-            <NavItem onClick={this.authorsViewClickHandler.bind(this)}>View Authors</NavItem>
+            <NavItem className="active postselect" onClick={this.postsViewClickHandler.bind(this)}>View Posts</NavItem>
+            <NavItem className="authorselect" onClick={this.authorsViewClickHandler.bind(this)}>View Authors</NavItem>
           </Navbar>
         </Col>
-        <Col s={4}>
-          <Scrollbars style={{ height: $(window).height() }}> 
-            <Results view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} posts={this.state.posts} />
+        <Col className="results" s={4}>
+          <Scrollbars style={{ height: $(window).height() }}>
+            <Results page={this.state.page} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} />
           </Scrollbars>
+          <ul className="pagination">
+            <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a></li>
+            <li className="active"><a onClick={this.pageHandler}>1</a></li>
+            <li className="waves-effect"><a href="#!">2</a></li>
+            <li className="waves-effect"><a href="#!">3</a></li>
+            <li className="waves-effect"><a href="#!">4</a></li>
+            <li className="waves-effect"><a href="#!">5</a></li>
+            <li className="waves-effect"><a href="#!"><i className="material-icons">chevron_right</i></a></li>
+          </ul>
         </Col>
 
         <Col s={4}>
