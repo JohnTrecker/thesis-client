@@ -11,10 +11,10 @@ class Results extends Component {
       view: this.props.view };
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      posts: this.props.posts });
-  }
+  // componentWillReceiveProps(props) {
+  //   this.setState({
+  //     posts: this.props.posts });
+  // }
 
   render() {
     if (this.props.posts.length === 0) {

@@ -17,7 +17,8 @@ class App extends Component {
       entry: null,
       links: [],
       posts: [],
-      view: 'posts' };
+      view: 'posts',
+      page: 0 };
 
     this.get = _.debounce(this.get.bind(this), 500);
   }
@@ -27,16 +28,17 @@ class App extends Component {
 
     $.ajax({
       url: `/api/posts?tags=${q}`,
+      page: this.state.page,
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
   }
 
   getLinks(id, cb) {
-    const q = JSON.stringify(id);
+    //const q = JSON.stringify(id);
 
     $.ajax({
-      url: `/api/posts/${q}`,
+      url: `/api/posts/${id}`,
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
@@ -50,11 +52,17 @@ class App extends Component {
           throw errorPosts;
         }
         if (blogPosts.length === 0) {
+          if (this.state.page === 0) {
+            this.setState({
+              tags: null,
+              posts: [],
+              entry: null,
+              links: [] 
+            });
+          }
+        } else if (this.state.page > 0) {
           this.setState({
-            tags: null,
-            posts: [],
-            entry: null,
-            links: [] 
+            posts: this.state.posts.concat(blogPosts)
           });
         } else {
           this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
@@ -68,10 +76,10 @@ class App extends Component {
                 title: blogPosts[0].title,
                 rank: blogPosts[0].rank,
                 description: blogPosts[0].description,
-                url: blogPosts[0].url },
+                url: blogPosts[0].url
+              },
               links: blogLinks 
             });
-
           });
         }
       });
@@ -92,22 +100,32 @@ class App extends Component {
     });
   }
 
+  pageHandler(str, page) {
+    this.setState({
+      page: page
+    }, () => this.get(str));
+  };
+
   postsViewClickHandler() {
     this.setState({
       view: 'posts'
     });
-    $(this).parent().toggleClass('active');
   }
 
   authorsViewClickHandler() {
     this.setState({
       view: 'authors'
     });
-    $(this).parent().toggleClass('active');
   }
 
   componentDidMount() {
     this.get('javascript');
+  }
+
+  componentDidUpdate() {
+    $('.collapsible').collapsible({
+      accordion : true
+    });
   }
 
   render() {
@@ -115,20 +133,20 @@ class App extends Component {
     <div>
       <Row>
         <Navbar>
-          <Col className="header center-align" s={4}>
-            <h4>Search</h4>
+          <Col className="logo center-align" s={4}>
+            <h4>BLOGRANK</h4>
           </Col>
-          <Col className="header center-align" s={4}>
+          <Col className="center-align" s={4}>
             <h4>Results</h4>
           </Col>
-          <Col className="header center-align" s={4}>
+          <Col className="center-align" s={4}>
             <h4>Details</h4>
           </Col>
         </Navbar>
       </Row>
       <Row>
         <Col s={4}>
-          <Search query={this.get}/>
+          <Search query={(str) => this.pageHandler(str, 0)}/>
           <Navbar>
             <NavItem onClick={this.postsViewClickHandler.bind(this)}>View Posts</NavItem>
             <NavItem onClick={this.authorsViewClickHandler.bind(this)}>View Authors</NavItem>

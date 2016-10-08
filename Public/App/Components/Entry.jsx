@@ -22,12 +22,17 @@ class Entry extends Component {
     if (!this.props.entry) {
       return null;
     }
+    if (this.props.links.length > 0) {
+      var linksHeader = <Row><Col className="title center-align" s={10}>Cited By:</Col></Row>;
+    } else {
+      var linksHeader = null;
+    }
     return (
       <Row>
         <Collection>
           <CollectionItem>
             <Row>
-              <Col className="left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
+              <Col className="title left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
             </Row>
             <Row>
               <Col className="left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.url}</a>}</Col>
@@ -38,10 +43,13 @@ class Entry extends Component {
               </Col>
             </Row>
           </CollectionItem>
-          {this.props.links
-            .map(link =>
-              <Link link={link.url} title={link.title} author={link.author} key={link.postId} />)
-          }
+          <CollectionItem>
+            <div>{linksHeader}</div>
+            {this.props.links
+              .map((link, i) =>
+                <Link link={link.url} title={link.title} author={link.author} key={i} />)
+            }
+          </CollectionItem>
         </Collection>
       </Row>
     );

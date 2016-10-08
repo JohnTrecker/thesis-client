@@ -2,17 +2,12 @@ import React from 'react';
 import { Row, Col, CollectionItem } from 'react-materialize';
 
 const Link = ({ link, title, author }) => (
-  <CollectionItem>
-    <Row>
-      <Col>Cited By: {<a href={link}>{title}</a>}</Col>
-    </Row>
-    <Row>
-      <Col>{ <a href={link}>{link}</a> }</Col>
-    </Row>
-    <Row>
-      <Col>Author: { author }</Col>
-    </Row>
-  </CollectionItem>
+  <ul className="collapsible" data-collapsible="accordion">
+    <li>
+      <div className="collapsible-header">{title}</div>
+      <div className="collapsible-body">{[<div className="linkprops"><a href={link}>{link}</a></div>,<div className="linkprops">Author: { author }</div>]}</div>
+    </li>
+  </ul>
 );
 
 Link.propTypes = {
