@@ -12,24 +12,16 @@ class Entry extends Component {
       links: this.props.links };
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      entry: this.props.entry,
-      links: this.props.links });
-  }
+  // componentWillReceiveProps(props) {
+  //   this.setState({
+  //     entry: this.props.entry,
+  //     links: this.props.links });
+  // }
 
   render() {
-    if (!this.props.entry) {
-      return null;
-    }
-    if (this.props.links.length > 0) {
-      var linksHeader = <Row><Col className="title center-align" s={10}>Cited By:</Col></Row>;
-    } else {
-      var linksHeader = null;
-    }
-    return (
-      <Row>
-        <Collection>
+    if (this.props.entry) {
+      var entry = 
+        <div>
           <CollectionItem>
             <Row>
               <Col className="title left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
@@ -50,6 +42,34 @@ class Entry extends Component {
                 <Link link={link.url} title={link.title} author={link.author} />)
             }
           </CollectionItem>
+        </div>;
+    } else {
+      var entry = null;
+    }
+    if (this.props.links.length > 0) {
+      var linksHeader = <Row><Col className="title center-align" s={10}>Cited By:</Col></Row>;
+    } else {
+      var linksHeader = null;
+    }
+    if (this.props.authorEntry) {
+      var authorEntry = 
+        <CollectionItem>
+          <Row>
+            <Col className="title center-align" s={12}>{this.props.authorEntry.name}</Col>
+          </Row>
+          <Row>
+            <Col className="left-align" s={6}>hIndex: {this.props.authorEntry.hIndex}</Col>
+            <Col className="right-align" s={6}>Total Blog Posts: {this.props.authorEntry.totalPosts}</Col>
+          </Row>
+        </CollectionItem>;
+    } else {
+      var authorEntry = null;
+    }
+    return (
+      <Row>
+        <Collection>
+          <div>{authorEntry}</div>
+          <div>{entry}</div>
         </Collection>
       </Row>
     );

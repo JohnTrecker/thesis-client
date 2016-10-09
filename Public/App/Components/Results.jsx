@@ -41,10 +41,13 @@ class Results extends Component {
       return (
         <Collection>
           {this.props.authors
-            .map(author =>
+            .map((author, i) =>
               <Author
                 name={author.name}
-                posts={author.posts} 
+                posts={author.posts}
+                resultsClickHandler={this.props.resultsClickHandler}
+                authorNameClickHandler={this.props.authorNameClickHandler}
+                authIndex={i}
               />)
           }
         </Collection>

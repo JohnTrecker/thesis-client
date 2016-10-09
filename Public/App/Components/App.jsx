@@ -20,7 +20,8 @@ class App extends Component {
       view: 'posts',
       page: 1,
       query: '',
-      authors: [] };
+      authors: [],
+      authorEntry: null };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -55,7 +56,14 @@ class App extends Component {
       } else {
         this.setState({
           authors: authors,
-          query: str
+          query: str,
+          authorEntry: authors.length === 0 ? null : 
+          {
+            name: authors[0].name,
+            hIndex: authors[0].hIndex,
+            totalPosts: authors[0].posts.length
+          },
+          entry: null
         }, () => {
           console.log(this.state.authors);
         });       
@@ -114,14 +122,16 @@ class App extends Component {
     }
   }
 
-  resultsClickHandler(index) {
-    this.getLinks(this.state.posts[index].postId, (err, blogLinks) => {
+  resultsClickHandler(index, authIndex) {
+    console.log(authIndex);
+    var post = authIndex ? this.state.authors[authIndex].posts[index] : this.state.posts[index];
+    this.getLinks(post.postId, (err, blogLinks) => {
       this.setState({
         entry: {
-          title: this.state.posts[index].title,
-          rank: this.state.posts[index].rank,
-          description: this.state.posts[index].description,
-          url: this.state.posts[index].url
+          title: post.title,
+          rank: post.rank,
+          description: post.description,
+          url: post.url
         },
         links: blogLinks
       });
@@ -156,6 +166,16 @@ class App extends Component {
       $('.authorselect').addClass('active');
       $('.postselect').removeClass('active');
     }
+  }
+
+  authorNameClickHandler(authIndex) {
+    this.setState({
+      authorEntry: {
+        name: this.state.authors[authIndex].name,
+        hIndex: this.state.authors[authIndex].hIndex,
+        totalPosts: this.state.authors[authIndex].posts.length
+      }
+    });
   }
 
   componentDidMount() {
@@ -194,7 +214,7 @@ class App extends Component {
         </Col>
         <Col className="results" s={4}>
           <Scrollbars style={{ height: $(window).height() }}>
-            <Results page={this.state.page} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} />
+            <Results authorNameClickHandler={this.authorNameClickHandler.bind(this)} page={this.state.page} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} />
           </Scrollbars>
           <ul className="pagination">
             <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a></li>
@@ -208,7 +228,7 @@ class App extends Component {
         </Col>
 
         <Col s={4}>
-          <Entry entry={this.state.entry} links={this.state.links} />
+          <Entry view={this.state.view} authorEntry={this.state.authorEntry} entry={this.state.entry} links={this.state.links} />
         </Col>
       </Row>
       </div>
