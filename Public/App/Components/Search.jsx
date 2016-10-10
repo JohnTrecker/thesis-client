@@ -1,15 +1,17 @@
 import React from 'react';
-import { Row, Input } from 'react-materialize';
+import { Col, Row, Input } from 'react-materialize';
 
 const Search = ({ get, getAuthors, view }) => (
   <Row>
-    <Input label="Search" s={9} onChange={e => {
-      if (view === 'posts') {
-        get(e.target.value)
-      } else if (view === 'authors') {
-        getAuthors(e.target.value);
-      }
-    }} />
+    <Col offset="s1" s={12}>
+      <Input label="Search" s={9} onChange={e => {
+        if (view === 'posts') {
+          get(e.target.value)
+        } else if (view === 'authors') {
+          getAuthors(e.target.value);
+        }
+      }} />
+    </Col>
   </Row>
 );
 

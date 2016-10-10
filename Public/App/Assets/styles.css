@@ -17,9 +17,13 @@ body {
   font-weight: bold;
 }
 .finish {
-  font-size: 16px;
+  font-size: 20px;
   font-style: italic;
 }
 .post:hover {
   background-color: #DCDCDC;
+}
+
+input {
+  margin: 0 auto;
 }

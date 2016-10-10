@@ -19,11 +19,14 @@ class App extends Component {
       links: [],
       posts: [],
       view: 'posts',
-      page: 1,
       query: '',
       authors: [],
       authorEntry: null,
-      loading: true };
+      loading: true,
+      postsPages: 1,
+      currPostPage: 1,
+      authPages: 1,
+      currAuthPage: 1 };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -31,10 +34,9 @@ class App extends Component {
 
   getPosts(tags, cb) {
     const q = JSON.stringify(tags);
-
+    const page = this.state.currPostPage;
     $.ajax({
-      url: `/api/posts?tags=${q}`,
-      page: this.state.page,
+      url: `/api/posts?tags=${q}&page=${page}`,
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
@@ -58,15 +60,16 @@ class App extends Component {
       } else {
         this.setState({
           tags: tags,
-          authors: authors,
+          authors: authors.results,
           query: str,
-          authorEntry: authors.length === 0 ? null : 
+          authorEntry: authors.results.length === 0 ? null : 
           {
-            name: authors[0].name,
-            hIndex: authors[0].hIndex,
-            totalPosts: authors[0].posts.length
+            name: authors.results[0].name,
+            hIndex: authors.results[0].hIndex,
+            totalPosts: authors.results[0].posts.length
           },
-          loading: false
+          loading: false,
+          authPages: Math.min(Math.ceil(authors.count / 20), 10) || 1
         }, () => {
           if (this.state.view === 'authors') {
             this.get(str, cb);
@@ -82,10 +85,10 @@ class App extends Component {
         });
       }
       const q = JSON.stringify(tags);
+      const page = this.state.currAuthPage;
       $.ajax({
-        url: `/api/authors?tags=${q}`,
+        url: `/api/authors?tags=${q}&page=${page}`,
         method: 'GET',
-        page: this.state.page,
         success: data => onResult(null, data),
         error: error => onResult(error, null)
       });
@@ -104,39 +107,39 @@ class App extends Component {
         if (errorPosts) {
           throw errorPosts;
         }
-        if (blogPosts.length === 0) {
+        if (blogPosts.results.length === 0) {
           this.setState({
             tags: null,
             posts: [],
             entry: null,
             links: [],
             query: str,
-            loading: false 
+            loading: false,
+            postsPages: 1 
           });
-          this.getAuthors(str, cb);
         } else {
-          this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
+          this.getLinks(blogPosts.results[0].postId, (errorLinks, blogLinks) => {
             if (errorLinks) {
               throw errorLinks;
             }
             this.setState({
               tags: tags,
-              posts: blogPosts,
+              posts: blogPosts.results,
               entry: this.state.view === 'posts' ? {
-                title: blogPosts[0].title,
-                rank: blogPosts[0].rank,
-                description: blogPosts[0].description,
-                url: blogPosts[0].url
+                title: blogPosts.results[0].title,
+                rank: blogPosts.results[0].rank,
+                description: blogPosts.results[0].description,
+                url: blogPosts.results[0].url
               } : null,
               links: blogLinks,
               query: str,
-              loading: false
-            }, () => {
-              if (this.state.view === 'posts') {
-                this.getAuthors(str, cb);
-              }
+              loading: false,
+              postsPages: Math.min(Math.ceil(blogPosts.count / 20), 10)
             });
           });
+        }
+        if (this.state.view === 'posts') {
+          this.getAuthors(str, cb);
         }
       });
     }
@@ -158,46 +161,65 @@ class App extends Component {
           url: post.url
         },
         links: blogLinks
-      }, () => {
-        // console.log(this.state.links);
       });
     });
   }
 
-  pageHandler(str, page) {
-    this.setState({
-      page: page
-    }, () => this.get(str));
+  pageHandler(page) {
+    if (this.state.view === 'posts') {
+      this.setState({
+        currPostPage: page
+      }, () => {
+        console.log(page);
+        this.get(this.state.query);
+      }); 
+    } else if (this.state.view === 'authors') {
+      this.setState({
+        currAuthPage: page
+      }, () => {
+        console.log(page);
+        this.getAuthors(this.state.query);
+      }); 
+    }
   };
 
   postsViewClickHandler() {
     if (this.state.view === 'authors') {
-      this.setState({
-        view: 'posts',
-        entry: this.state.posts.length > 0 ? {
-          title: this.state.posts[0].title,
-          rank: this.state.posts[0].rank,
-          description: this.state.posts[0].description,
-          url: this.state.posts[0].url
-        } : null
-      }, () => {
-        //this.get(this.state.query);
-      });
-      $('.postselect').addClass('active');
-      $('.authorselect').removeClass('active');
+      if (this.state.posts.length > 0) {
+        var post = this.state.posts[0];
+        this.getLinks(post.postId, (err, blogLinks) => {
+          this.setState({
+            view: 'posts',
+            entry: {
+              title: post.title,
+              rank: post.rank,
+              description: post.description,
+              url: post.url
+            },
+            links: blogLinks
+          });
+        });
+      } else {
+        this.setState({
+          view: 'posts',
+          entry: null
+        });
+      }
+
+      $('.postselect').addClass('disabled');
+      $('.authorselect').removeClass('disabled');
     }
   }
+
 
   authorsViewClickHandler() {
     if (this.state.view === 'posts') {
       this.setState({
         view: 'authors',
         entry: null
-      }, () => {
-        //this.getAuthors(this.state.query);
       });
-      $('.authorselect').addClass('active');
-      $('.postselect').removeClass('active');
+      $('.authorselect').addClass('disabled');
+      $('.postselect').removeClass('disabled');
     }
   }
 
@@ -231,7 +253,7 @@ class App extends Component {
   }
 
   render() {
-    var progress = this.state.loading ? <ProgressBar ></ProgressBar> : <div><p className="finish">{this.finishSearchMessage()}</p></div>;
+    var progress = this.state.loading ? <ProgressBar ></ProgressBar> : <div className="center-align"><p className="finish">{this.finishSearchMessage()}</p></div>;
     return (
     <div>
       <Row>
@@ -250,19 +272,20 @@ class App extends Component {
       <Row>
         <Col s={4}>
           <Search view={this.state.view} getAuthors={this.getAuthors.bind(this)} get={this.get.bind(this)}/>
-          <Navbar>
-            <NavItem className="active postselect" onClick={this.postsViewClickHandler.bind(this)}>View Posts</NavItem>
-            <NavItem className="authorselect" onClick={this.authorsViewClickHandler.bind(this)}>View Authors</NavItem>
-          </Navbar>
+          <Row>
+            <div className="center-align">
+              <a className="postselect disabled waves-effect waves-light btn" onClick={this.postsViewClickHandler.bind(this)}>View Posts</a>
+              <a className="authorselect waves-effect waves-light btn" onClick={this.authorsViewClickHandler.bind(this)}>View Authors</a>
+            </div>
+          </Row>
           {progress}
-          <Pages className="center-align"/>
+          <Pages view={this.state.view} postsPages={this.state.postsPages} authPages={this.state.authPages} pageHandler={this.pageHandler.bind(this)}/>
         </Col>
         <Col className="results" s={4}>
           <Scrollbars style={{ height: $(window).height() }}>
             <Results authorNameClickHandler={this.authorNameClickHandler.bind(this)} page={this.state.page} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} />
           </Scrollbars>
         </Col>
-
         <Col s={4}>
           <Entry view={this.state.view} authorEntry={this.state.authorEntry} entry={this.state.entry} links={this.state.links} />
         </Col>
