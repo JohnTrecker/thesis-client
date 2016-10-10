@@ -55,6 +55,7 @@ class App extends Component {
         throw err;
       } else {
         this.setState({
+          tags: tags,
           authors: authors,
           query: str,
           authorEntry: authors.length === 0 ? null : 
@@ -62,10 +63,11 @@ class App extends Component {
             name: authors[0].name,
             hIndex: authors[0].hIndex,
             totalPosts: authors[0].posts.length
-          },
-          entry: null
+          }
         }, () => {
-          console.log(this.state.authors);
+          if (this.state.view === 'authors') {
+            this.get(str, cb);
+          }
         });       
       }
     };
@@ -115,6 +117,10 @@ class App extends Component {
               },
               links: blogLinks,
               query: str
+            }, () => {
+              if (this.state.view === 'posts') {
+                this.getAuthors(str, cb);
+              }
             });
           });
         }
@@ -123,8 +129,12 @@ class App extends Component {
   }
 
   resultsClickHandler(index, authIndex) {
-    console.log(authIndex);
-    var post = authIndex ? this.state.authors[authIndex].posts[index] : this.state.posts[index];
+    let post;
+    if (authIndex != undefined && this.state.view === 'authors') {
+      post = this.state.authors[authIndex].posts[index];
+    } else if (this.state.view === 'posts') {
+      post = this.state.posts[index];
+    }
     this.getLinks(post.postId, (err, blogLinks) => {
       this.setState({
         entry: {
@@ -134,6 +144,8 @@ class App extends Component {
           url: post.url
         },
         links: blogLinks
+      }, () => {
+        console.log(this.state.links);
       });
     });
   }
@@ -147,9 +159,15 @@ class App extends Component {
   postsViewClickHandler() {
     if (this.state.view === 'authors') {
       this.setState({
-        view: 'posts'
+        view: 'posts',
+        entry: this.state.posts.length > 0 ? {
+          title: this.state.posts[0].title,
+          rank: this.state.posts[0].rank,
+          description: this.state.posts[0].description,
+          url: this.state.posts[0].url
+        } : null
       }, () => {
-        this.get(this.state.query);
+        //this.get(this.state.query);
       });
       $('.postselect').addClass('active');
       $('.authorselect').removeClass('active');
@@ -159,9 +177,10 @@ class App extends Component {
   authorsViewClickHandler() {
     if (this.state.view === 'posts') {
       this.setState({
-        view: 'authors'
+        view: 'authors',
+        entry: null
       }, () => {
-        this.getAuthors(this.state.query);
+        //this.getAuthors(this.state.query);
       });
       $('.authorselect').addClass('active');
       $('.postselect').removeClass('active');
@@ -174,7 +193,8 @@ class App extends Component {
         name: this.state.authors[authIndex].name,
         hIndex: this.state.authors[authIndex].hIndex,
         totalPosts: this.state.authors[authIndex].posts.length
-      }
+      },
+      entry: null
     });
   }
 

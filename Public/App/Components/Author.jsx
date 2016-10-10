@@ -7,7 +7,7 @@ const Author = ({name, posts, resultsClickHandler, authIndex, authorNameClickHan
   <ul className="collapsible" data-collapsible="accordion">
     <li>
       <div onClick={() => authorNameClickHandler(authIndex)} className="collapsible-header">{name}</div>
-      <div className="collapsible-body">{posts.slice(0, 10).map((post, i) => <Post authIndex={authIndex} title={post.title} url={post.url} desc={post.description} rank={post.rank} index={i} resultsClickHandler={resultsClickHandler}/>)}</div>
+      <div className="collapsible-body">{posts.slice(0, 10).map((post, i) => <Post authIndex={authIndex} title={post.title} url={post.url} desc={post.description} rank={post.inLinks.length} index={i} resultsClickHandler={resultsClickHandler}/>)}</div>
     </li>
   </ul>
 );

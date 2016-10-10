@@ -19,6 +19,11 @@ class Entry extends Component {
   // }
 
   render() {
+    if (this.props.links.length > 0) {
+      var linksHeader = <Row><Col className="title center-align" s={10}>Cited By:</Col></Row>;
+    } else {
+      var linksHeader = null;
+    }
     if (this.props.entry) {
       var entry = 
         <div>
@@ -46,12 +51,7 @@ class Entry extends Component {
     } else {
       var entry = null;
     }
-    if (this.props.links.length > 0) {
-      var linksHeader = <Row><Col className="title center-align" s={10}>Cited By:</Col></Row>;
-    } else {
-      var linksHeader = null;
-    }
-    if (this.props.authorEntry) {
+    if (this.props.authorEntry && this.props.view === 'authors') {
       var authorEntry = 
         <CollectionItem>
           <Row>
