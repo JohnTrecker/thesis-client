@@ -65,14 +65,18 @@ class Entry extends Component {
     } else {
       var authorEntry = null;
     }
-    return (
-      <Row>
-        <Collection>
-          <div>{authorEntry}</div>
-          <div>{entry}</div>
-        </Collection>
-      </Row>
-    );
+    if (linksHeader || entry || authorEntry) {
+      return (
+        <Row>
+          <Collection>
+            <div>{authorEntry}</div>
+            <div>{entry}</div>
+          </Collection>
+        </Row>
+      );
+    } else {
+      return null;
+    }
   }
 }
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Button, Navbar, NavItem } from 'react-materialize';
+import { Row, Col, Card, Button, Navbar, NavItem, ProgressBar } from 'react-materialize';
 import * as _ from 'underscore';
 import Search from './Search';
 import Results from './Results';
 import Entry from './Entry';
+import Pages from './Pages';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 
@@ -21,7 +22,8 @@ class App extends Component {
       page: 1,
       query: '',
       authors: [],
-      authorEntry: null };
+      authorEntry: null,
+      loading: true };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -49,7 +51,7 @@ class App extends Component {
   }
 
   getAuthors(str, cb) {
-    const tags = str.split(' ').filter(word => word.length > 0);
+    const tags = str.split(' ').filter(word => word.length > 0).map(word => word.toLowerCase());
     const onResult = (err, authors) => {
       if (err) {
         throw err;
@@ -63,7 +65,8 @@ class App extends Component {
             name: authors[0].name,
             hIndex: authors[0].hIndex,
             totalPosts: authors[0].posts.length
-          }
+          },
+          loading: false
         }, () => {
           if (this.state.view === 'authors') {
             this.get(str, cb);
@@ -73,6 +76,11 @@ class App extends Component {
     };
 
     if (tags.length > 0) {
+      if (this.state.view === 'authors') {
+        this.setState({
+          loading: true
+        });
+      }
       const q = JSON.stringify(tags);
       $.ajax({
         url: `/api/authors?tags=${q}`,
@@ -85,22 +93,27 @@ class App extends Component {
   }
 
   get(str, cb) {
-    const tags = str.split(' ').filter(word => word.length > 0);
+    const tags = str.split(' ').filter(word => word.length > 0).map(word => word.toLowerCase());
     if (tags.length > 0) {
+      if (this.state.view === 'posts') {
+        this.setState({
+          loading: true
+        });
+      }
       this.getPosts(tags, (errorPosts, blogPosts) => {
         if (errorPosts) {
           throw errorPosts;
         }
         if (blogPosts.length === 0) {
-          if (this.state.page === 0) {
-            this.setState({
-              tags: null,
-              posts: [],
-              entry: null,
-              links: [],
-              query: str 
-            });
-          }
+          this.setState({
+            tags: null,
+            posts: [],
+            entry: null,
+            links: [],
+            query: str,
+            loading: false 
+          });
+          this.getAuthors(str, cb);
         } else {
           this.getLinks(blogPosts[0].postId, (errorLinks, blogLinks) => {
             if (errorLinks) {
@@ -109,14 +122,15 @@ class App extends Component {
             this.setState({
               tags: tags,
               posts: blogPosts,
-              entry: {
+              entry: this.state.view === 'posts' ? {
                 title: blogPosts[0].title,
                 rank: blogPosts[0].rank,
                 description: blogPosts[0].description,
                 url: blogPosts[0].url
-              },
+              } : null,
               links: blogLinks,
-              query: str
+              query: str,
+              loading: false
             }, () => {
               if (this.state.view === 'posts') {
                 this.getAuthors(str, cb);
@@ -145,7 +159,7 @@ class App extends Component {
         },
         links: blogLinks
       }, () => {
-        console.log(this.state.links);
+        // console.log(this.state.links);
       });
     });
   }
@@ -198,6 +212,14 @@ class App extends Component {
     });
   }
 
+  finishSearchMessage() {
+    if (this.state.view === 'authors') {
+      return `Author results for ${this.state.query}`;
+    } else if (this.state.view ==='posts') {
+      return `Post results for ${this.state.query}`
+    }
+  }
+
   componentDidMount() {
     this.get('javascript');
   }
@@ -209,6 +231,7 @@ class App extends Component {
   }
 
   render() {
+    var progress = this.state.loading ? <ProgressBar ></ProgressBar> : <div><p className="finish">{this.finishSearchMessage()}</p></div>;
     return (
     <div>
       <Row>
@@ -231,20 +254,13 @@ class App extends Component {
             <NavItem className="active postselect" onClick={this.postsViewClickHandler.bind(this)}>View Posts</NavItem>
             <NavItem className="authorselect" onClick={this.authorsViewClickHandler.bind(this)}>View Authors</NavItem>
           </Navbar>
+          {progress}
+          <Pages className="center-align"/>
         </Col>
         <Col className="results" s={4}>
           <Scrollbars style={{ height: $(window).height() }}>
             <Results authorNameClickHandler={this.authorNameClickHandler.bind(this)} page={this.state.page} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} />
           </Scrollbars>
-          <ul className="pagination">
-            <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a></li>
-            <li className="active"><a onClick={this.pageHandler}>1</a></li>
-            <li className="waves-effect"><a href="#!">2</a></li>
-            <li className="waves-effect"><a href="#!">3</a></li>
-            <li className="waves-effect"><a href="#!">4</a></li>
-            <li className="waves-effect"><a href="#!">5</a></li>
-            <li className="waves-effect"><a href="#!"><i className="material-icons">chevron_right</i></a></li>
-          </ul>
         </Col>
 
         <Col s={4}>
