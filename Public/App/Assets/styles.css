@@ -1,0 +1,25 @@
+body {
+
+}
+
+.row {
+
+}
+
+.results {
+  
+}
+.linkprops {
+  text-indent: 1em;
+}
+.title {
+  font-size: 16px;
+  font-weight: bold;
+}
+.finish {
+  font-size: 16px;
+  font-style: italic;
+}
+.post:hover {
+  background-color: #DCDCDC;
+}
