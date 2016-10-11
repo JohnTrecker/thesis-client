@@ -304,7 +304,7 @@ class App extends Component {
         </Col>
         <Col className="results" s={4}>
           <Scrollbars style={{ height: $(window).height() }}>
-            <Results authorNameClickHandler={this.authorNameClickHandler.bind(this)} page={this.state.page} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} />
+            <Results authorNameClickHandler={this.authorNameClickHandler.bind(this)} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} query={this.state.query}/>
           </Scrollbars>
         </Col>
         <Col s={4}>

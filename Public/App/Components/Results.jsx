@@ -52,6 +52,10 @@ class Results extends Component {
           }
         </Collection>
       );
+    } else if (this.props.query != '') {
+      return (
+        <div className="center-align"><p className="noresults">No results found, please try another search!</p></div>
+      );
     } else {
       return null;
     }
