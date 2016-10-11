@@ -72,9 +72,12 @@ class App extends Component {
           authPages: Math.min(Math.ceil(authors.count / 20), 10) || 1
         }, () => {
           if (this.state.view === 'authors') {
-            this.get(str, cb);
+            this.get(str);
           }
         });       
+      }
+      if (cb) {
+        cb();
       }
     };
 
@@ -117,6 +120,9 @@ class App extends Component {
             loading: false,
             postsPages: 1 
           });
+          if (cb) {
+            cb();
+          }
         } else {
           this.getLinks(blogPosts.results[0].postId, (errorLinks, blogLinks) => {
             if (errorLinks) {
@@ -136,10 +142,13 @@ class App extends Component {
               loading: false,
               postsPages: Math.min(Math.ceil(blogPosts.count / 20), 10)
             });
+            if (cb) {
+              cb();
+            }
           });
         }
         if (this.state.view === 'posts') {
-          this.getAuthors(str, cb);
+          this.getAuthors(str);
         }
       });
     }
@@ -180,6 +189,20 @@ class App extends Component {
       }); 
     }
   };
+
+  resetActivePage() {
+    $('.pagenums').removeClass('active');
+    $('#page0').addClass('active');
+    $('.pageback').addClass('disabled');
+    $('.pageforward').removeClass('disabled');
+  }
+
+  resetCurrPages(cb) {
+    this.setState({
+      currAuthPage: 1,
+      currPostPage: 1
+    }, cb);
+  }
 
   postsViewClickHandler() {
     if (this.state.view === 'authors') {
@@ -269,7 +292,7 @@ class App extends Component {
       </Row>
       <Row>
         <Col s={4}>
-          <Search view={this.state.view} getAuthors={this.getAuthors.bind(this)} get={this.get.bind(this)}/>
+          <Search view={this.state.view} getAuthors={this.getAuthors.bind(this)} get={this.get.bind(this)} resetActivePage={this.resetActivePage.bind(this)} resetCurrPages={this.resetCurrPages.bind(this)}/>
           <Row>
             <div className="center-align">
               <a className="postselect disabled waves-effect waves-light btn" onClick={this.postsViewClickHandler.bind(this)}>View Posts</a>
