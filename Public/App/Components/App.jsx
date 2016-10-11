@@ -170,14 +170,12 @@ class App extends Component {
       this.setState({
         currPostPage: page
       }, () => {
-        console.log(page);
         this.get(this.state.query);
       }); 
     } else if (this.state.view === 'authors') {
       this.setState({
         currAuthPage: page
       }, () => {
-        console.log(page);
         this.getAuthors(this.state.query);
       }); 
     }
@@ -279,7 +277,7 @@ class App extends Component {
             </div>
           </Row>
           {progress}
-          <Pages view={this.state.view} postsPages={this.state.postsPages} authPages={this.state.authPages} pageHandler={this.pageHandler.bind(this)}/>
+          <Pages view={this.state.view} currPostPage={this.state.currPostPage} postsPages={this.state.postsPages} currAuthPage={this.state.currAuthPage} authPages={this.state.authPages} pageHandler={this.pageHandler.bind(this)}/>
         </Col>
         <Col className="results" s={4}>
           <Scrollbars style={{ height: $(window).height() }}>
