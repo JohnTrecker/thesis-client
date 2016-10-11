@@ -29,7 +29,7 @@ const Pages = ({view, currPostPage, postsPages, currAuthPage, authPages, pageHan
           {_.range(1, pages + 1)
             .map((page, i) => {
               return (
-                <li id={'page'+i} className={'pagenums waves-effect ' + (i === 0 ? 'active' : '')}>
+                <li id={'page'+i} className={'pagenums waves-effect ' + (i === currPage - 1 ? 'active' : '')}>
                   <a onClick={() => {
                     if (i > 0) {
                       $('.pageback').removeClass('disabled');
