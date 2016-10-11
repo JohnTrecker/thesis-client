@@ -11,17 +11,9 @@ const Pages = ({view, currPostPage, postsPages, currAuthPage, authPages, pageHan
     return (
       <Row>
         <ul className="pagination center-align">
-          <li className="disabled pageback waves-effect">
+          <li className={'pageback waves-effect ' + (currPage === 1 ? 'disabled' : '')}>
             <a onClick={() => {
-              if (currPage - 1 === 1) {
-                $('.pageback').addClass('disabled');
-              }
-              if (currPage - 1 != pages) {
-                $('.pageforward').removeClass('disabled');
-              }
               if (currPage > 1) {
-                $('.pagenums').removeClass('active');
-                $(`#page${currPage - 2}`).addClass('active');
                 pageHandler(currPage - 1);
               }
             }}><i className="material-icons">chevron_left</i></a>
@@ -31,35 +23,15 @@ const Pages = ({view, currPostPage, postsPages, currAuthPage, authPages, pageHan
               return (
                 <li id={'page'+i} className={'pagenums waves-effect ' + (i === currPage - 1 ? 'active' : '')}>
                   <a onClick={() => {
-                    if (i > 0) {
-                      $('.pageback').removeClass('disabled');
-                    } else {
-                      $('.pageback').addClass('disabled');
-                    }
-                    if (i === pages - 1) {
-                      $('.pageforward').addClass('disabled');
-                    } else {
-                      $('.pageforward').removeClass('disabled');
-                    }
-                    $('.pagenums').removeClass('active');
-                    $(`#page${i}`).addClass('active');
                     pageHandler(page);
                   }}>{page}</a>
                 </li>
               )
             })
           }
-          <li className="waves-effect pageforward">
+          <li className={'waves-effect pageforward ' + (currPage === pages ? 'disabled' : ' ')}>
             <a onClick={() => {
-              if (currPage + 1 === pages) {
-                $('.pageforward').addClass('disabled');
-              }
-              if (currPage + 1 > 1) {
-                $('.pageback').removeClass('disabled');
-              }
               if (currPage < pages) {
-                $('.pagenums').removeClass('active');
-                $(`#page${currPage}`).addClass('active');
                 pageHandler(currPage + 1);
               }
             }}><i className="material-icons">chevron_right</i></a>
