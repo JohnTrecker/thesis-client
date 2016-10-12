@@ -1,15 +1,24 @@
 import React from 'react';
-import { Row, Input } from 'react-materialize';
+import { Col, Row, Input } from 'react-materialize';
 
-const Search = ({ get, getAuthors, view }) => (
+const Search = ({ get, getAuthors, view, resetCurrPages, resetActivePage }) => (
   <Row>
-    <Input label="Search" s={9} onChange={e => {
-      if (view === 'posts') {
-        get(e.target.value)
-      } else if (view === 'authors') {
-        getAuthors(e.target.value);
-      }
-    }} />
+    <Col offset="s1" s={12}>
+      <Input label="Search" s={9} onChange={e => {
+        e.persist();
+        resetCurrPages(() => {
+          if (view === 'posts') {
+            get(e.target.value, () => {
+              resetActivePage();
+            });
+          } else if (view === 'authors') {
+            getAuthors(e.target.value, () => {
+              resetActivePage();
+            });
+          }
+        });
+      }} />
+    </Col>
   </Row>
 );
 
