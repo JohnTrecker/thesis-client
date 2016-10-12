@@ -156,8 +156,9 @@ class App extends Component {
 
   resultsClickHandler(index, authIndex) {
     let post;
-    if (authIndex != undefined && this.state.view === 'authors') {
+    if (authIndex !== undefined && this.state.view === 'authors') {
       post = this.state.authors[authIndex].posts[index];
+      this.authorNameClickHandler(authIndex);
     } else if (this.state.view === 'posts') {
       post = this.state.posts[index];
     }
@@ -188,7 +189,7 @@ class App extends Component {
         this.getAuthors(this.state.query);
       }); 
     }
-  };
+  }
 
   resetActivePage() {
     $('.pagenums').removeClass('active');
@@ -258,8 +259,8 @@ class App extends Component {
   finishSearchMessage() {
     if (this.state.view === 'authors') {
       return `Author results for ${this.state.query}`;
-    } else if (this.state.view ==='posts') {
-      return `Post results for ${this.state.query}`
+    } else if (this.state.view === 'posts') {
+      return `Post results for ${this.state.query}`;
     }
   }
 
@@ -269,7 +270,7 @@ class App extends Component {
 
   componentDidUpdate() {
     $('.collapsible').collapsible({
-      accordion : true
+      accordion: true
     });
   }
 
@@ -283,10 +284,10 @@ class App extends Component {
             <h4>BLOGRANK</h4>
           </Col>
           <Col className="center-align" s={4}>
-            <h4>Results</h4>
+            <h4></h4>
           </Col>
           <Col className="center-align" s={4}>
-            <h4>Details</h4>
+            <h4></h4>
           </Col>
         </Navbar>
       </Row>

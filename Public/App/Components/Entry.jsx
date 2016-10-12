@@ -29,14 +29,14 @@ class Entry extends Component {
         <div>
           <CollectionItem>
             <Row>
-              <Col className="title left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.title}</a>}</Col>
+              <Col className="title left-align" s={12}>{<a href={this.props.entry.url} target="_blank">{this.props.entry.title}</a>}</Col>
             </Row>
             <Row>
-              <Col className="left-align" s={12}>{<a href={this.props.entry.url}>{this.props.entry.url}</a>}</Col>
+              <Col className="left-align" s={12}>{<a href={this.props.entry.url} target="_blank">{this.props.entry.url}</a>}</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>
-                <p>Description: {this.props.entry.description}</p>
+                <p><b>Description</b>: {this.props.entry.description}</p>
               </Col>
             </Row>
           </CollectionItem>
@@ -59,7 +59,7 @@ class Entry extends Component {
           </Row>
           <Row>
             <Col className="left-align" s={6}>hIndex: {this.props.authorEntry.hIndex}</Col>
-            <Col className="right-align" s={6}>Total Blog Posts: {this.props.authorEntry.totalPosts}</Col>
+            <Col className="right-align" s={6}>Relevant Blog Posts: {this.props.authorEntry.totalPosts}</Col>
           </Row>
         </CollectionItem>;
     } else {

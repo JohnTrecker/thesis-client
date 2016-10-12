@@ -3,7 +3,7 @@ body {
 }
 
 .logo {
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'Permanent Marker', cursive;
   font-size: 24px;
 }
 .linkprops {
@@ -27,6 +27,9 @@ body {
 .noresults {
   font-size: 24px;
   font-weight: bold;
+}
+.a:hover {
+  text-decoration: underline;
 }
 input {
   margin: 0 auto;
