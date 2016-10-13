@@ -32,7 +32,8 @@ class App extends Component {
         posts: 'loading',
         authors: 'loading',
         connected: 'loading'
-      } };
+      },
+      graph: false };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -280,6 +281,13 @@ class App extends Component {
     }
   }
 
+  showGraph() {
+    this.setState({
+      graph: !this.state.graph
+    });
+    console.log('Graph view: ', this.state.graph);
+  }
+
   componentDidMount() {
     this.get('javascript');
     this.getStats((err, data) => {
@@ -335,7 +343,8 @@ class App extends Component {
           </Row>
           <About
             className="about"
-            stats={this.state.stats} />
+            stats={this.state.stats}
+            showGraph={this.showGraph.bind(this)} />
         </Col>
         <Col className="results" s={4}>
           <Collection className="lesspadding"

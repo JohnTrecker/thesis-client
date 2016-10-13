@@ -51,7 +51,9 @@ ul.collection {
 /*.link {
   color: red;
 }*/
-
+.btn-flat.explore:hover {
+  background-color: #DCDCDC;  
+}
 input {
   margin: 0 auto;
 }
@@ -60,4 +62,13 @@ input {
   margin: 0 auto;
   background-color: white;
 
+}
+.collapsible-header.header-lines {
+  line-height: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.black-text {
+  color: black;
+  font-size: 24px;
 }

@@ -3,7 +3,7 @@
 import React from 'react';
 import { Col, Row, Chip } from 'react-materialize';
 
-const About = ({ stats }) => (
+const About = ({ stats, showGraph }) => (
   <Row>
 
     <Col s={12}>
@@ -24,6 +24,14 @@ const About = ({ stats }) => (
       </p>
       <Row>
         <div className='center-align'>
+          <a className='waves-effect explore btn-flat'
+             onClick={showGraph}>
+            Explore the Graph
+          </a>
+        </div>
+      </Row>
+      <Row>
+        <div className='center-align'>
           <Chip>{stats.posts} posts</Chip>
           <Chip>{stats.authors} authors</Chip>
           <Chip>{stats.connected} edges</Chip>
@@ -40,7 +48,9 @@ const About = ({ stats }) => (
       </div>
       <div className='center-align'>
         <p>
-          <a href='https://github.com/truncatedAvocados' target='_blank'>Contribute</a>
+          <a className='black-text' href='https://github.com/truncatedAvocados' target='_blank'>
+            <i className='fa fa-github fa-lg'></i>
+          </a>
         </p>
       </div>
     </Col>
