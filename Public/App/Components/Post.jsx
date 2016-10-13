@@ -5,21 +5,21 @@ const Post = ({ title, url, desc, rank, author, date, tags, index, resultsClickH
   if (author) {
     var authRow = 
     <Row>
-      <Col className="left-align" s={6}><b>Author</b>: {author}</Col>
+      <Col className="left-align" s={6}><b>Author</b> - {author}</Col>
     </Row>;
   } else {
     var authRow = null;
   }
   return (<CollectionItem className="post" onClick={() => resultsClickHandler(index, authIndex)}>
     <Row>
-      <Col className="left-align" s={9}>{<a className="title" 
+      <Col className="left-align" s={9}>{<a className="title link" 
                                             href={url}
                                             target="_blank">
                                             {title}</a>}</Col>
       <Col className="right-align" s={3}>Cited By {rank || 0}</Col>
     </Row>
     <Row>
-      <Col className="left-align"><b>Description</b>: {desc}</Col>
+      <Col className="left-align"><b>Description</b> - {desc}</Col>
     </Row>
     {authRow}
   </CollectionItem>

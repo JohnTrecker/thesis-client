@@ -9,7 +9,7 @@ const Pages = ({view, currPostPage, postsPages, currAuthPage, authPages, pageHan
     var pages = view === 'posts' ? postsPages : authPages;
     var currPage = view === 'posts' ? currPostPage : currAuthPage;
     return (
-      <Row>
+      <Row className="oneline">
         <ul className="pagination center-align">
           <li className={'pageback waves-effect ' + (currPage === 1 ? 'disabled' : '')}>
             <a onClick={() => {

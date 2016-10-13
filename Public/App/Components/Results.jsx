@@ -39,7 +39,7 @@ class Results extends Component {
       );
     } else if (this.props.view === 'authors' && this.props.authors.length > 0) {
       return (
-        <Collection>
+        <div className="noborder">
           {this.props.authors
             .map((author, i) =>
               <Author
@@ -50,11 +50,15 @@ class Results extends Component {
                 authIndex={i}
               />)
           }
-        </Collection>
+        </div>
       );
-    } else if (this.props.query != '') {
+    } else if (this.props.query !== '') {
       return (
-        <div className="center-align"><p className="noresults">No results found, please try another search!</p></div>
+        <div className="center-align">
+          <p className="noresults">
+            No results found, please try another search!
+          </p>
+        </div>
       );
     } else {
       return null;
