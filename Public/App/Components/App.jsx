@@ -228,8 +228,8 @@ class App extends Component {
         });
       }
 
-      $('.postselect').addClass('disabled');
-      $('.authorselect').removeClass('disabled');
+      $('.authorselect').addClass('disabled');
+      $('.postselect').removeClass('disabled');
     }
   }
 
@@ -240,8 +240,8 @@ class App extends Component {
         view: 'authors',
         entry: null
       });
-      $('.authorselect').addClass('disabled');
-      $('.postselect').removeClass('disabled');
+      $('.postselect').addClass('disabled');
+      $('.authorselect').removeClass('disabled');
     }
   }
 
@@ -281,7 +281,7 @@ class App extends Component {
       <Row>
         <Navbar>
           <Col className="logo center-align" s={4}>
-            <h4>BLOGRANK</h4>
+            <h4>BlogRank</h4>
           </Col>
           <Col className="center-align" s={4}>
             <h4></h4>
@@ -293,23 +293,47 @@ class App extends Component {
       </Row>
       <Row>
         <Col s={4}>
-          <Search view={this.state.view} getAuthors={this.getAuthors.bind(this)} get={this.get.bind(this)} resetActivePage={this.resetActivePage.bind(this)} resetCurrPages={this.resetCurrPages.bind(this)}/>
+          <Search 
+            view={this.state.view} 
+            getAuthors={this.getAuthors.bind(this)} 
+            get={this.get.bind(this)} 
+            resetActivePage={this.resetActivePage.bind(this)} 
+            resetCurrPages={this.resetCurrPages.bind(this)}/>
           <Row>
             <div className="center-align">
-              <a className="postselect disabled waves-effect waves-light btn" onClick={this.postsViewClickHandler.bind(this)}>View Posts</a>
-              <a className="authorselect waves-effect waves-light btn" onClick={this.authorsViewClickHandler.bind(this)}>View Authors</a>
+              <a className="postselect waves-effect waves-light btn" 
+                 onClick={this.postsViewClickHandler.bind(this)}>Posts</a>
+              <a className="authorselect disabled waves-effect waves-light btn" 
+                 onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
             </div>
           </Row>
           {progress}
-          <Pages view={this.state.view} currPostPage={this.state.currPostPage} postsPages={this.state.postsPages} currAuthPage={this.state.currAuthPage} authPages={this.state.authPages} pageHandler={this.pageHandler.bind(this)}/>
         </Col>
         <Col className="results" s={4}>
+          <Pages 
+            view={this.state.view} 
+            currPostPage={this.state.currPostPage} 
+            postsPages={this.state.postsPages} 
+            currAuthPage={this.state.currAuthPage} 
+            authPages={this.state.authPages} 
+            pageHandler={this.pageHandler.bind(this)}/>
           <Scrollbars style={{ height: $(window).height() }}>
-            <Results authorNameClickHandler={this.authorNameClickHandler.bind(this)} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} query={this.state.query}/>
+            <Results 
+              authorNameClickHandler={this.authorNameClickHandler.bind(this)} 
+              view={this.state.view} 
+              className="left-align" 
+              resultsClickHandler={this.resultsClickHandler.bind(this)} 
+              authors={this.state.authors} 
+              posts={this.state.posts} 
+              query={this.state.query}/>
           </Scrollbars>
         </Col>
         <Col s={4}>
-          <Entry view={this.state.view} authorEntry={this.state.authorEntry} entry={this.state.entry} links={this.state.links} />
+          <Entry 
+            view={this.state.view} 
+            authorEntry={this.state.authorEntry} 
+            entry={this.state.entry} 
+            links={this.state.links} />
         </Col>
       </Row>
       </div>

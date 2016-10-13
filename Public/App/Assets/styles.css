@@ -1,7 +1,9 @@
 body {
-
+  background-image: url('bckground.gif');
 }
-
+html {
+  font-family: 'Abhaya Libre', serif;
+}
 .logo {
   font-family: 'Permanent Marker', cursive;
   font-size: 24px;
@@ -20,6 +22,7 @@ body {
 .finish {
   font-size: 20px;
   font-style: italic;
+  font-family: 'Abhaya Libre', serif;
 }
 .post:hover {
   background-color: #DCDCDC;
@@ -28,9 +31,10 @@ body {
   font-size: 24px;
   font-weight: bold;
 }
-.a:hover {
+.title:hover, .link:hover {
   text-decoration: underline;
 }
+
 input {
   margin: 0 auto;
 }

@@ -32,7 +32,7 @@ class Entry extends Component {
               <Col className="title left-align" s={12}>{<a href={this.props.entry.url} target="_blank">{this.props.entry.title}</a>}</Col>
             </Row>
             <Row>
-              <Col className="left-align" s={12}>{<a href={this.props.entry.url} target="_blank">{this.props.entry.url}</a>}</Col>
+              <Col className="link left-align" s={12}>{<a href={this.props.entry.url} target="_blank">{this.props.entry.url}</a>}</Col>
             </Row>
             <Row>
               <Col className="left-align" s={10}>
