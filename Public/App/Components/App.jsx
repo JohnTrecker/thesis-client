@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Button, Navbar, NavItem, ProgressBar } from 'react-materialize';
+import { Row, Col, Card, Button, Navbar, NavItem, ProgressBar, Collection, CollectionItem } from 'react-materialize';
 import * as _ from 'underscore';
 import Search from './Search';
 import Results from './Results';
 import Entry from './Entry';
 import Pages from './Pages';
+import About from './About';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 
@@ -26,7 +27,13 @@ class App extends Component {
       postsPages: 1,
       currPostPage: 1,
       authPages: 1,
-      currAuthPage: 1 };
+      currAuthPage: 1,
+      stats: {
+        posts: 'loading',
+        authors: 'loading',
+        connected: 'loading'
+      },
+      graph: false };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -47,6 +54,16 @@ class App extends Component {
 
     $.ajax({
       url: `/api/posts/${id}`,
+      method: 'GET',
+      success: data => cb(null, data),
+      error: error => cb(error, null) });
+  }
+
+  getStats(cb) {
+    //const q = JSON.stringify(id);
+
+    $.ajax({
+      url: '/api/stats',
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
@@ -156,8 +173,9 @@ class App extends Component {
 
   resultsClickHandler(index, authIndex) {
     let post;
-    if (authIndex != undefined && this.state.view === 'authors') {
+    if (authIndex !== undefined && this.state.view === 'authors') {
       post = this.state.authors[authIndex].posts[index];
+      this.authorNameClickHandler(authIndex);
     } else if (this.state.view === 'posts') {
       post = this.state.posts[index];
     }
@@ -188,7 +206,7 @@ class App extends Component {
         this.getAuthors(this.state.query);
       }); 
     }
-  };
+  }
 
   resetActivePage() {
     $('.pagenums').removeClass('active');
@@ -227,8 +245,8 @@ class App extends Component {
         });
       }
 
-      $('.postselect').addClass('disabled');
-      $('.authorselect').removeClass('disabled');
+      $('.authorselect').addClass('disabled');
+      $('.postselect').removeClass('disabled');
     }
   }
 
@@ -239,8 +257,8 @@ class App extends Component {
         view: 'authors',
         entry: null
       });
-      $('.authorselect').addClass('disabled');
-      $('.postselect').removeClass('disabled');
+      $('.postselect').addClass('disabled');
+      $('.authorselect').removeClass('disabled');
     }
   }
 
@@ -257,58 +275,108 @@ class App extends Component {
 
   finishSearchMessage() {
     if (this.state.view === 'authors') {
-      return `Author results for ${this.state.query}`;
-    } else if (this.state.view ==='posts') {
-      return `Post results for ${this.state.query}`
+      return `Author results for "${this.state.query}"`;
+    } else if (this.state.view === 'posts') {
+      return `Post results for "${this.state.query}"`;
     }
+  }
+
+  showGraph() {
+    this.setState({
+      graph: !this.state.graph
+    });
+    console.log('Graph view: ', this.state.graph);
   }
 
   componentDidMount() {
     this.get('javascript');
+    this.getStats((err, data) => {
+      console.log('Stats were recieved: ', data);
+      this.setState({
+        stats: data
+      });
+    });
   }
 
   componentDidUpdate() {
     $('.collapsible').collapsible({
-      accordion : true
+      accordion: true
     });
   }
 
   render() {
-    var progress = this.state.loading ? <ProgressBar ></ProgressBar> : <div className="center-align"><p className="finish">{this.finishSearchMessage()}</p></div>;
+    var progress = this.state.loading 
+                    ? <ProgressBar className='red lighten-3'></ProgressBar> 
+                    : <div className="center-align">
+                        <p className="finish">{this.finishSearchMessage()}</p>
+                      </div>;
     return (
     <div>
       <Row>
-        <Navbar>
+        <Navbar className="teal darken-2">
           <Col className="logo center-align" s={4}>
-            <h4>BLOGRANK</h4>
+            <h4>BlogRank</h4>
           </Col>
           <Col className="center-align" s={4}>
-            <h4>Results</h4>
+            <h4></h4>
           </Col>
           <Col className="center-align" s={4}>
-            <h4>Details</h4>
+            <h4></h4>
           </Col>
         </Navbar>
       </Row>
       <Row>
         <Col s={4}>
-          <Search view={this.state.view} getAuthors={this.getAuthors.bind(this)} get={this.get.bind(this)} resetActivePage={this.resetActivePage.bind(this)} resetCurrPages={this.resetCurrPages.bind(this)}/>
+          <Search 
+            view={this.state.view} 
+            getAuthors={this.getAuthors.bind(this)} 
+            get={this.get.bind(this)} 
+            resetActivePage={this.resetActivePage.bind(this)} 
+            resetCurrPages={this.resetCurrPages.bind(this)}/>
           <Row>
             <div className="center-align">
-              <a className="postselect disabled waves-effect waves-light btn" onClick={this.postsViewClickHandler.bind(this)}>View Posts</a>
-              <a className="authorselect waves-effect waves-light btn" onClick={this.authorsViewClickHandler.bind(this)}>View Authors</a>
+              <a className="postselect waves-effect red lighten-3 waves-light btn" 
+                 onClick={this.postsViewClickHandler.bind(this)}>Posts</a>
+              <a className="authorselect disabled red lighten-3 waves-effect waves-light btn" 
+                 onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
             </div>
           </Row>
-          {progress}
-          <Pages view={this.state.view} currPostPage={this.state.currPostPage} postsPages={this.state.postsPages} currAuthPage={this.state.currAuthPage} authPages={this.state.authPages} pageHandler={this.pageHandler.bind(this)}/>
+          <About
+            className="about"
+            stats={this.state.stats}
+            showGraph={this.showGraph.bind(this)} />
         </Col>
         <Col className="results" s={4}>
+          <Collection className="lesspadding"
+                      style="background-color: white;">
+            <CollectionItem className="lesspadding">
+              {progress}
+              <Pages 
+                view={this.state.view} 
+                currPostPage={this.state.currPostPage} 
+                postsPages={this.state.postsPages} 
+                currAuthPage={this.state.currAuthPage} 
+                authPages={this.state.authPages} 
+                pageHandler={this.pageHandler.bind(this)}/>
+            </CollectionItem>
+          </Collection>
           <Scrollbars style={{ height: $(window).height() }}>
-            <Results authorNameClickHandler={this.authorNameClickHandler.bind(this)} view={this.state.view} className="left-align" resultsClickHandler={this.resultsClickHandler.bind(this)} authors={this.state.authors} posts={this.state.posts} query={this.state.query}/>
+            <Results 
+              authorNameClickHandler={this.authorNameClickHandler.bind(this)} 
+              view={this.state.view} 
+              className="left-align" 
+              resultsClickHandler={this.resultsClickHandler.bind(this)} 
+              authors={this.state.authors} 
+              posts={this.state.posts} 
+              query={this.state.query}/>
           </Scrollbars>
         </Col>
         <Col s={4}>
-          <Entry view={this.state.view} authorEntry={this.state.authorEntry} entry={this.state.entry} links={this.state.links} />
+          <Entry 
+            view={this.state.view} 
+            authorEntry={this.state.authorEntry} 
+            entry={this.state.entry} 
+            links={this.state.links} />
         </Col>
       </Row>
       </div>

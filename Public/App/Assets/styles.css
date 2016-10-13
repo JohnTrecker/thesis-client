@@ -1,9 +1,11 @@
 body {
-
+  background-image: url('bckground.gif');
 }
-
+html {
+  font-family: 'Abhaya Libre', serif;
+}
 .logo {
-  font-family: Impact, Charcoal, sans-serif;
+  font-family: 'Permanent Marker', cursive;
   font-size: 24px;
 }
 .linkprops {
@@ -13,6 +15,18 @@ body {
   overflow: hidden;
   margin-bottom: 1px;
 }
+.lesspadding.collection-item {
+  padding: 0px;
+}
+ul.collection {
+  background-color: white;
+}
+.smallfont {
+  font-size: 14px;
+}
+.oneline {
+  overflow: hidden;
+}
 .title {
   font-size: 16px;
   font-weight: bold;
@@ -21,6 +35,9 @@ body {
   font-size: 20px;
   font-style: italic;
 }
+.post, .white {
+  background-color: white;
+}
 .post:hover {
   background-color: #DCDCDC;
 }
@@ -28,6 +45,33 @@ body {
   font-size: 24px;
   font-weight: bold;
 }
+.link:hover {
+  text-decoration: underline;
+}
+/*.link {
+  color: #AA4838;
+}*/
+.btn-flat.explore:hover {
+  background-color: #DCDCDC;  
+}
 input {
   margin: 0 auto;
+}
+.pagination li a.textwhite {
+  color: white;
+}
+
+.nomargin, .post {
+  margin: 0 auto;
+  background-color: white;
+
+}
+.collapsible-header.header-lines {
+  line-height: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.black-text {
+  color: black;
+  font-size: 24px;
 }
