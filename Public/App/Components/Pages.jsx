@@ -3,7 +3,7 @@ import {Row, Col} from 'react-materialize';
 import * as _ from 'underscore';
 
 const Pages = ({view, currPostPage, postsPages, currAuthPage, authPages, pageHandler}) => {
-  if ((postsPages <=1 && view === 'posts') || (authPages <=1 && view === 'authors')) {
+  if ((postsPages <= 1 && view === 'posts') || (authPages <= 1 && view === 'authors')) {
     return null;
   } else {
     var pages = view === 'posts' ? postsPages : authPages;
@@ -21,10 +21,12 @@ const Pages = ({view, currPostPage, postsPages, currAuthPage, authPages, pageHan
           {_.range(1, pages + 1)
             .map((page, i) => {
               return (
-                <li id={'page'+i} className={'pagenums waves-effect ' + (i === currPage - 1 ? 'active' : '')}>
-                  <a onClick={() => {
-                    pageHandler(page);
-                  }}>{page}</a>
+                <li id={'page' + i} className={'pagenums waves-effect ' + (i === currPage - 1 ? 'active' : '')}>
+                  <a className='smallfont'
+                     onClick={() => {
+                       pageHandler(page);
+                     }}>{page}
+                 </a>
                 </li>
               )
             })

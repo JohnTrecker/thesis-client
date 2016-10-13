@@ -15,6 +15,18 @@ html {
   overflow: hidden;
   margin-bottom: 1px;
 }
+.lesspadding.collection-item {
+  padding: 0px;
+}
+ul.collection {
+  background-color: white;
+}
+.smallfont {
+  font-size: 14px;
+}
+.oneline {
+  overflow: hidden;
+}
 .title {
   font-size: 16px;
   font-weight: bold;

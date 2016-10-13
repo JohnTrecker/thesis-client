@@ -313,8 +313,9 @@ class App extends Component {
           </Row>
         </Col>
         <Col className="results" s={4}>
-          <Collection>
-            <CollectionItem>
+          <Collection className="lesspadding"
+                      style="background-color: white;">
+            <CollectionItem className="lesspadding">
               {progress}
               <Pages 
                 view={this.state.view} 
