@@ -5,6 +5,7 @@ import Search from './Search';
 import Results from './Results';
 import Entry from './Entry';
 import Pages from './Pages';
+import About from './About';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 
@@ -26,7 +27,12 @@ class App extends Component {
       postsPages: 1,
       currPostPage: 1,
       authPages: 1,
-      currAuthPage: 1 };
+      currAuthPage: 1,
+      stats: {
+        posts: 'loading',
+        authors: 'loading',
+        connected: 'loading'
+      } };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -47,6 +53,16 @@ class App extends Component {
 
     $.ajax({
       url: `/api/posts/${id}`,
+      method: 'GET',
+      success: data => cb(null, data),
+      error: error => cb(error, null) });
+  }
+
+  getStats(cb) {
+    //const q = JSON.stringify(id);
+
+    $.ajax({
+      url: '/api/stats',
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
@@ -266,6 +282,12 @@ class App extends Component {
 
   componentDidMount() {
     this.get('javascript');
+    this.getStats((err, data) => {
+      console.log('Stats were recieved: ', data);
+      this.setState({
+        stats: data
+      });
+    });
   }
 
   componentDidUpdate() {
@@ -311,6 +333,9 @@ class App extends Component {
                  onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
             </div>
           </Row>
+          <About
+            className="about"
+            stats={this.state.stats} />
         </Col>
         <Col className="results" s={4}>
           <Collection className="lesspadding"
