@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Button, Navbar, NavItem, ProgressBar } from 'react-materialize';
+import { Row, Col, Card, Button, Navbar, NavItem, ProgressBar, Collection, CollectionItem } from 'react-materialize';
 import * as _ from 'underscore';
 import Search from './Search';
 import Results from './Results';
@@ -258,9 +258,9 @@ class App extends Component {
 
   finishSearchMessage() {
     if (this.state.view === 'authors') {
-      return `Author results for ${this.state.query}`;
+      return `Author results for "${this.state.query}"`;
     } else if (this.state.view === 'posts') {
-      return `Post results for ${this.state.query}`;
+      return `Post results for "${this.state.query}"`;
     }
   }
 
@@ -275,7 +275,11 @@ class App extends Component {
   }
 
   render() {
-    var progress = this.state.loading ? <ProgressBar ></ProgressBar> : <div className="center-align"><p className="finish">{this.finishSearchMessage()}</p></div>;
+    var progress = this.state.loading 
+                    ? <ProgressBar ></ProgressBar> 
+                    : <div className="center-align">
+                        <p className="finish">{this.finishSearchMessage()}</p>
+                      </div>;
     return (
     <div>
       <Row>
@@ -307,16 +311,20 @@ class App extends Component {
                  onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
             </div>
           </Row>
-          {progress}
         </Col>
         <Col className="results" s={4}>
-          <Pages 
-            view={this.state.view} 
-            currPostPage={this.state.currPostPage} 
-            postsPages={this.state.postsPages} 
-            currAuthPage={this.state.currAuthPage} 
-            authPages={this.state.authPages} 
-            pageHandler={this.pageHandler.bind(this)}/>
+          <Collection>
+            <CollectionItem>
+              {progress}
+              <Pages 
+                view={this.state.view} 
+                currPostPage={this.state.currPostPage} 
+                postsPages={this.state.postsPages} 
+                currAuthPage={this.state.currAuthPage} 
+                authPages={this.state.authPages} 
+                pageHandler={this.pageHandler.bind(this)}/>
+            </CollectionItem>
+          </Collection>
           <Scrollbars style={{ height: $(window).height() }}>
             <Results 
               authorNameClickHandler={this.authorNameClickHandler.bind(this)} 
