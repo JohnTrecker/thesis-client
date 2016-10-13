@@ -49,13 +49,16 @@ ul.collection {
   text-decoration: underline;
 }
 /*.link {
-  color: red;
+  color: #AA4838;
 }*/
 .btn-flat.explore:hover {
   background-color: #DCDCDC;  
 }
 input {
   margin: 0 auto;
+}
+.pagination li a.textwhite {
+  color: white;
 }
 
 .nomargin, .post {

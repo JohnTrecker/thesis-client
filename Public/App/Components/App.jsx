@@ -306,14 +306,14 @@ class App extends Component {
 
   render() {
     var progress = this.state.loading 
-                    ? <ProgressBar ></ProgressBar> 
+                    ? <ProgressBar className='red lighten-3'></ProgressBar> 
                     : <div className="center-align">
                         <p className="finish">{this.finishSearchMessage()}</p>
                       </div>;
     return (
     <div>
       <Row>
-        <Navbar>
+        <Navbar className="teal darken-2">
           <Col className="logo center-align" s={4}>
             <h4>BlogRank</h4>
           </Col>
@@ -335,9 +335,9 @@ class App extends Component {
             resetCurrPages={this.resetCurrPages.bind(this)}/>
           <Row>
             <div className="center-align">
-              <a className="postselect waves-effect waves-light btn" 
+              <a className="postselect waves-effect red lighten-3 waves-light btn" 
                  onClick={this.postsViewClickHandler.bind(this)}>Posts</a>
-              <a className="authorselect disabled waves-effect waves-light btn" 
+              <a className="authorselect disabled red lighten-3 waves-effect waves-light btn" 
                  onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
             </div>
           </Row>
