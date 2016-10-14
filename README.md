@@ -1,4 +1,4 @@
-# BlogRank client
+# BlogRank Client
 
 Thesis project @ Hack Reactor
 
