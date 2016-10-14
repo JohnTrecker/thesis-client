@@ -6,8 +6,8 @@ import Results from './Results';
 import Entry from './Entry';
 import Pages from './Pages';
 import About from './About';
+import Graph from './Graph';
 import { Scrollbars } from 'react-custom-scrollbars';
-
 
 
 class App extends Component {
@@ -33,7 +33,9 @@ class App extends Component {
         authors: 'loading',
         connected: 'loading'
       },
-      graph: false };
+      graph: false,
+      graphData: []
+    };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -64,6 +66,16 @@ class App extends Component {
 
     $.ajax({
       url: '/api/stats',
+      method: 'GET',
+      success: data => cb(null, data),
+      error: error => cb(error, null) });
+  }
+
+  getData(cb) {
+    //const q = JSON.stringify(id);
+
+    $.ajax({
+      url: 'Public/App/Assets/graph.json',
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
@@ -285,15 +297,40 @@ class App extends Component {
     this.setState({
       graph: !this.state.graph
     });
-    console.log('Graph view: ', this.state.graph);
   }
 
   componentDidMount() {
     this.get('javascript');
     this.getStats((err, data) => {
-      console.log('Stats were recieved: ', data);
       this.setState({
         stats: data
+      });
+    });
+    this.getData((err, data) => {
+
+      //manipulate the data here then set the state
+      var topLevel = {
+        nodes: [],
+        edges: []
+      };
+
+      data.forEach(node => {
+        topLevel.nodes.push({
+          id: node.postId
+          // label: node.title
+        });
+        node.inLinks.forEach(link => {
+          topLevel.edges.push({
+            from: link,
+            to: node.postId
+          });
+        });
+      });
+
+      topLevel.nodes = topLevel.nodes.slice(0, 500);
+      topLevel.edges = topLevel.edges.slice(0, 500);
+      this.setState({
+        graphData: topLevel
       });
     });
   }
@@ -310,79 +347,81 @@ class App extends Component {
                     : <div className="center-align">
                         <p className="finish">{this.finishSearchMessage()}</p>
                       </div>;
-    return (
-    <div>
-      <Row>
-        <nav className="teal darken-2">
-          <div className="nav-wrapper">
-            <Col className="logo center-align" s={4}>
-              <h4>BlogRank</h4>
-            </Col>
-            <Col className="center-align" s={4}>
-              <h4></h4>
-            </Col>
-            <Col className="center-align" s={4}>
-              <h4></h4>
-            </Col>
-          </div>
-        </nav>
-      </Row>
-      <Row>
-        <Col s={12} m={4}>
-          <Search 
-            view={this.state.view} 
-            getAuthors={this.getAuthors.bind(this)} 
-            get={this.get.bind(this)} 
-            resetActivePage={this.resetActivePage.bind(this)} 
-            resetCurrPages={this.resetCurrPages.bind(this)}/>
-          <Row>
-            <div className="center-align">
-              <a className="postselect waves-effect red lighten-3 waves-light btn" 
-                 onClick={this.postsViewClickHandler.bind(this)}>Posts</a>
-              <a className="authorselect disabled red lighten-3 waves-effect waves-light btn" 
-                 onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
-            </div>
-          </Row>
-          <About
-            className="about"
-            stats={this.state.stats}
-            showGraph={this.showGraph.bind(this)} />
-        </Col>
-        <Col className="results" s={12} m={4}>
-          <Collection className="lesspadding"
-                      style="background-color: white;">
-            <CollectionItem className="lesspadding">
-              {progress}
-              <Pages 
-                view={this.state.view} 
-                currPostPage={this.state.currPostPage} 
-                postsPages={this.state.postsPages} 
-                currAuthPage={this.state.currAuthPage} 
-                authPages={this.state.authPages} 
-                pageHandler={this.pageHandler.bind(this)}/>
-            </CollectionItem>
-          </Collection>
-          <Scrollbars style={{ height: $(window).height() }}>
-            <Results 
-              authorNameClickHandler={this.authorNameClickHandler.bind(this)} 
-              view={this.state.view} 
-              className="left-align" 
-              resultsClickHandler={this.resultsClickHandler.bind(this)} 
-              authors={this.state.authors} 
-              posts={this.state.posts} 
-              query={this.state.query}/>
-          </Scrollbars>
-        </Col>
-        <Col s={12} m={4}>
-          <Entry 
-            view={this.state.view} 
-            authorEntry={this.state.authorEntry} 
-            entry={this.state.entry} 
-            links={this.state.links} />
-        </Col>
-      </Row>
-      </div>
-    );
+
+    var rendered = this.state.graph
+                    ? <Graph
+                        data={this.state.graphData}>
+                      </Graph>
+                    : <div>
+                        <Row>
+                          <Navbar className="teal darken-2">
+                            <Col className="logo center-align" s={4}>
+                              <h4>BlogRank</h4>
+                            </Col>
+                            <Col className="center-align" s={4}>
+                              <h4></h4>
+                            </Col>
+                            <Col className="center-align" s={4}>
+                              <h4></h4>
+                            </Col>
+                          </Navbar>
+                        </Row>
+                        <Row>
+                          <Col s={4}>
+                            <Search 
+                              view={this.state.view} 
+                              getAuthors={this.getAuthors.bind(this)} 
+                              get={this.get.bind(this)} 
+                              resetActivePage={this.resetActivePage.bind(this)} 
+                              resetCurrPages={this.resetCurrPages.bind(this)}/>
+                            <Row>
+                              <div className="center-align">
+                                <a className="postselect waves-effect red lighten-3 waves-light btn" 
+                                   onClick={this.postsViewClickHandler.bind(this)}>Posts</a>
+                                <a className="authorselect disabled red lighten-3 waves-effect waves-light btn" 
+                                   onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
+                              </div>
+                            </Row>
+                            <About
+                              className="about"
+                              stats={this.state.stats}
+                              showGraph={this.showGraph.bind(this)} />
+                          </Col>
+                          <Col className="results" s={4}>
+                            <Collection className="lesspadding"
+                                        style="background-color: white;">
+                              <CollectionItem className="lesspadding">
+                                {progress}
+                                <Pages 
+                                  view={this.state.view} 
+                                  currPostPage={this.state.currPostPage} 
+                                  postsPages={this.state.postsPages} 
+                                  currAuthPage={this.state.currAuthPage} 
+                                  authPages={this.state.authPages} 
+                                  pageHandler={this.pageHandler.bind(this)}/>
+                              </CollectionItem>
+                            </Collection>
+                            <Scrollbars style={{ height: $(window).height() }}>
+                              <Results 
+                                authorNameClickHandler={this.authorNameClickHandler.bind(this)} 
+                                view={this.state.view} 
+                                className="left-align" 
+                                resultsClickHandler={this.resultsClickHandler.bind(this)} 
+                                authors={this.state.authors} 
+                                posts={this.state.posts} 
+                                query={this.state.query}/>
+                            </Scrollbars>
+                          </Col>
+                          <Col s={4}>
+                            <Entry 
+                              view={this.state.view} 
+                              authorEntry={this.state.authorEntry} 
+                              entry={this.state.entry} 
+                              links={this.state.links} />
+                          </Col>
+                        </Row>
+                      </div>;
+    return (rendered);
   }
 }
 
