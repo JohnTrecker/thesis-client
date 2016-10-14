@@ -6,6 +6,7 @@ import Results from './Results';
 import Entry from './Entry';
 import Pages from './Pages';
 import About from './About';
+import Graph from './Graph';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 
@@ -32,7 +33,9 @@ class App extends Component {
         authors: 'loading',
         connected: 'loading'
       },
-      graph: false };
+      graph: false,
+      graphData: []
+    };
 
     this.get = _.debounce(this.get.bind(this), 500);
     this.getAuthors = _.debounce(this.getAuthors.bind(this), 500);
@@ -63,6 +66,16 @@ class App extends Component {
 
     $.ajax({
       url: '/api/stats',
+      method: 'GET',
+      success: data => cb(null, data),
+      error: error => cb(error, null) });
+  }
+
+  getData(cb) {
+    //const q = JSON.stringify(id);
+
+    $.ajax({
+      url: 'Public/App/Assets/graph.json',
       method: 'GET',
       success: data => cb(null, data),
       error: error => cb(error, null) });
@@ -284,15 +297,40 @@ class App extends Component {
     this.setState({
       graph: !this.state.graph
     });
-    console.log('Graph view: ', this.state.graph);
   }
 
   componentDidMount() {
     this.get('javascript');
     this.getStats((err, data) => {
-      console.log('Stats were recieved: ', data);
       this.setState({
         stats: data
+      });
+    });
+    this.getData((err, data) => {
+
+      //manipulate the data here then set the state
+      var topLevel = {
+        nodes: [],
+        edges: []
+      };
+
+      data.forEach(node => {
+        topLevel.nodes.push({
+          id: node.postId
+          // label: node.title
+        });
+        node.inLinks.forEach(link => {
+          topLevel.edges.push({
+            from: link,
+            to: node.postId
+          });
+        });
+      });
+
+      topLevel.nodes = topLevel.nodes.slice(0, 500);
+      topLevel.edges = topLevel.edges.slice(0, 500);
+      this.setState({
+        graphData: topLevel
       });
     });
   }
@@ -312,9 +350,9 @@ class App extends Component {
 
     var rendered = this.state.graph
                     ? <Graph
-                        data={graphData}>
+                        data={this.state.graphData}>
                       </Graph>
-                    :  <div>
+                    : <div>
                         <Row>
                           <Navbar className="teal darken-2">
                             <Col className="logo center-align" s={4}>
