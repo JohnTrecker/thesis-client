@@ -59,7 +59,7 @@ class Entry extends Component {
             <Col className="title center-align" s={12}>{this.props.authorEntry.name}</Col>
           </Row>
           <Row>
-            <Col className="left-align" s={6}>hIndex: {this.props.authorEntry.hIndex}</Col>
+            <Col className="left-align" s={6}>h-index: {this.props.authorEntry.hIndex}</Col>
             <Col className="right-align" s={6}>Relevant Blog Posts: {this.props.authorEntry.totalPosts}</Col>
           </Row>
         </CollectionItem>;
