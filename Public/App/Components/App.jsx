@@ -306,7 +306,7 @@ class App extends Component {
 
   render() {
     var progress = this.state.loading 
-                    ? <ProgressBar className='red lighten-3'></ProgressBar> 
+                    ? <ProgressBar className='red'></ProgressBar> 
                     : <div className="center-align">
                         <p className="finish">{this.finishSearchMessage()}</p>
                       </div>;
@@ -326,7 +326,7 @@ class App extends Component {
         </Navbar>
       </Row>
       <Row>
-        <Col s={4}>
+        <Col s={12} m={4}>
           <Search 
             view={this.state.view} 
             getAuthors={this.getAuthors.bind(this)} 
@@ -346,7 +346,7 @@ class App extends Component {
             stats={this.state.stats}
             showGraph={this.showGraph.bind(this)} />
         </Col>
-        <Col className="results" s={4}>
+        <Col className="results" s={12} m={4}>
           <Collection className="lesspadding"
                       style="background-color: white;">
             <CollectionItem className="lesspadding">
@@ -371,7 +371,7 @@ class App extends Component {
               query={this.state.query}/>
           </Scrollbars>
         </Col>
-        <Col s={4}>
+        <Col s={12} m={4}>
           <Entry 
             view={this.state.view} 
             authorEntry={this.state.authorEntry} 

@@ -19,11 +19,12 @@ class Entry extends Component {
   // }
 
   render() {
-    if (this.props.links.length > 0) {
-      var linksHeader = <Row><Col className="title center-align" s={10}>Cited By:</Col></Row>;
+    if (this.props.links.length === 0) {
+      var count = 0;
     } else {
-      var linksHeader = null;
+      var count = null;
     }
+    var linksHeader = <Row><Col className="title center-align" s={10}>Cited By: {count}</Col></Row>;
     if (this.props.entry) {
       var entry = 
         <div>
