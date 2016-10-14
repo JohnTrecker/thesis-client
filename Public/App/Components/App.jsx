@@ -313,17 +313,19 @@ class App extends Component {
     return (
     <div>
       <Row>
-        <Navbar className="teal darken-2">
-          <Col className="logo center-align" s={4}>
-            <h4>BlogRank</h4>
-          </Col>
-          <Col className="center-align" s={4}>
-            <h4></h4>
-          </Col>
-          <Col className="center-align" s={4}>
-            <h4></h4>
-          </Col>
-        </Navbar>
+        <nav className="teal darken-2">
+          <div className="nav-wrapper">
+            <Col className="logo center-align" s={4}>
+              <h4>BlogRank</h4>
+            </Col>
+            <Col className="center-align" s={4}>
+              <h4></h4>
+            </Col>
+            <Col className="center-align" s={4}>
+              <h4></h4>
+            </Col>
+          </div>
+        </nav>
       </Row>
       <Row>
         <Col s={12} m={4}>
