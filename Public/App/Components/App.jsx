@@ -354,20 +354,22 @@ class App extends Component {
                       </Graph>
                     : <div>
                         <Row>
-                          <Navbar className="teal darken-2">
-                            <Col className="logo center-align" s={4}>
-                              <h4>BlogRank</h4>
-                            </Col>
-                            <Col className="center-align" s={4}>
-                              <h4></h4>
-                            </Col>
-                            <Col className="center-align" s={4}>
-                              <h4></h4>
-                            </Col>
-                          </Navbar>
+                          <nav className="teal darken-2">
+                            <div className="nav-wrapper">
+                              <Col className="logo center-align" s={4}>
+                                <h4>BlogRank</h4>
+                              </Col>
+                              <Col className="center-align" s={4}>
+                                <h4></h4>
+                              </Col>
+                              <Col className="center-align" s={4}>
+                                <h4></h4>
+                              </Col>
+                            </div>
+                          </nav>
                         </Row>
                         <Row>
-                          <Col s={4}>
+                          <Col s={12} m={4}>
                             <Search 
                               view={this.state.view} 
                               getAuthors={this.getAuthors.bind(this)} 
@@ -382,12 +384,14 @@ class App extends Component {
                                    onClick={this.authorsViewClickHandler.bind(this)}>Authors</a>
                               </div>
                             </Row>
-                            <About
-                              className="about"
-                              stats={this.state.stats}
-                              showGraph={this.showGraph.bind(this)} />
+                            <div className="hide-on-small-only">
+                              <About
+                                className="about"
+                                stats={this.state.stats}
+                                showGraph={this.showGraph.bind(this)} />
+                            </div>
                           </Col>
-                          <Col className="results" s={4}>
+                          <Col className="results" s={12} m={4}>
                             <Collection className="lesspadding"
                                         style="background-color: white;">
                               <CollectionItem className="lesspadding">
@@ -412,7 +416,7 @@ class App extends Component {
                                 query={this.state.query}/>
                             </Scrollbars>
                           </Col>
-                          <Col s={4}>
+                          <Col s={12} m={4}>
                             <Entry 
                               view={this.state.view} 
                               authorEntry={this.state.authorEntry} 
