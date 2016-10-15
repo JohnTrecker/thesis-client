@@ -19,7 +19,8 @@ const Author = ({name, posts, resultsClickHandler, authIndex, authorNameClickHan
                   desc={post.description} 
                   rank={post.inLinks.length} 
                   index={i} 
-                  resultsClickHandler={resultsClickHandler}/>)
+                  resultsClickHandler={resultsClickHandler}
+                  key={i}/>)
         }
         </Collection>
       </div>

@@ -22,8 +22,9 @@ const Pages = ({view, currPostPage, postsPages, currAuthPage, authPages, pageHan
             .map((page, i) => {
               return (
                 <li id={'page' + i}
+                key={i}
                     className={'pagenums waves-effect' + (i === currPage - 1 ? 'active teal darken-2' : '')}>
-                  <a className={'smallfont ' + (i === currPage - 1 ? 'textwhite' : '')}
+                  <a key={i} className={'smallfont ' + (i === currPage - 1 ? 'textwhite' : '')}
                      onClick={() => {
                        pageHandler(page);
                      }}>{page}

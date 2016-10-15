@@ -33,6 +33,7 @@ class Results extends Component {
                 tags={post.oldTags}
                 index={i}
                 resultsClickHandler={this.props.resultsClickHandler}
+                key={i}
               />)
           }
         </Collection>
@@ -48,6 +49,7 @@ class Results extends Component {
                 resultsClickHandler={this.props.resultsClickHandler}
                 authorNameClickHandler={this.props.authorNameClickHandler}
                 authIndex={i}
+                key={i}
               />)
           }
         </div>
