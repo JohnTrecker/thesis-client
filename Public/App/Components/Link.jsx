@@ -1,13 +1,13 @@
 import React from 'react';
 import { Row, Col, CollectionItem } from 'react-materialize';
 
-const Link = ({ link, title, author }) => (
+const Link = ({ link, title, author, i }) => (
   <ul className="collapsible grey lighten-4" data-collapsible="accordion">
     <li>
       <div className="collapsible-header grey lighten-4 header-lines">{title}</div>
       <div className="collapsible-body">{
-        [<div className="link linkprops"><a href={link} target="_blank">{link}</a></div>,
-         <div className="linkprops"><b>Author</b>: { author }</div>]}
+        [<div key={i} className="link linkprops"><a href={link} target="_blank">{link}</a></div>,
+         <div key={i + 'a'} className="linkprops"><b>Author</b>: { author }</div>]}
        </div>
     </li>
   </ul>

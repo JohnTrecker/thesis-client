@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, CollectionItem } from 'react-materialize';
+import { Row, Col, CollectionItem, Collection } from 'react-materialize';
 import Link from './Link';
 import Post from './Post';
 
@@ -8,18 +8,22 @@ const Author = ({name, posts, resultsClickHandler, authIndex, authorNameClickHan
     <li>
       <div onClick={() => authorNameClickHandler(authIndex)} className="collapsible-header">{name}</div>
       <div className="nomargin white collapsible-body">
+        <Collection>
         {posts
           .slice(0, 10)
           .map((post, i) => 
             <Post className='nomargin'
                   authIndex={authIndex} 
                   title={post.title} 
-                  url={post.url} 
+                  url={post.url}
                   desc={post.description} 
                   rank={post.inLinks.length} 
                   index={i} 
-                  resultsClickHandler={resultsClickHandler}/>)
-        }</div>
+                  resultsClickHandler={resultsClickHandler}
+                  key={i}/>)
+        }
+        </Collection>
+      </div>
     </li>
   </ul>
 );
